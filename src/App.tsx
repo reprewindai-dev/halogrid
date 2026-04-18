@@ -1,10 +1,7 @@
 import { useState, useEffect } from 'react'
 import type { Tier, ViewMode } from './types'
 import { useBackendHealth } from './hooks/useBackendHealth'
-import { useProviderConfig } from './hooks/useProviderConfig'
 import { useSimulation } from './hooks/useSimulation'
-import { useWaterSignals } from './hooks/useWaterSignals'
-import { mergeRegionsWithWaterSignals } from './lib/water'
 import BlogHub from './components/BlogHub'
 import TopBar from './components/TopBar'
 import LeftPanel from './components/LeftPanel'
@@ -19,24 +16,20 @@ export default function App() {
   const [tier, setTier] = useState<Tier>('core')
   const { regions, decisions, traces, metrics, paused, toggle, reset } = useSimulation(tier)
   const { health: backendHealth, error: backendError } = useBackendHealth()
-  const providerConfig = useProviderConfig()
-  const waterSignals = useWaterSignals(regions)
-  const displayRegions = mergeRegionsWithWaterSignals(regions, waterSignals)
   const [selectedRegionId, setSelectedRegionId] = useState<string | null>(null)
   const [leftCollapsed, setLeftCollapsed] = useState(false)
   const [time, setTime] = useState(Date.now())
 
   useEffect(() => {
-    const t = setInterval(() => setTime(Date.now()), 1000)
-    return () => clearInterval(t)
+    const timer = setInterval(() => setTime(Date.now()), 1000)
+    return () => clearInterval(timer)
   }, [])
 
-  const selectedRegion = selectedRegionId
-    ? displayRegions.find((region) => region.id === selectedRegionId) ?? null
-    : null
+  const selectedRegion = selectedRegionId ? regions.find((region) => region.id === selectedRegionId) ?? null : null
 
-  const handleRegionClick = (regionId: string) =>
+  const handleRegionClick = (regionId: string) => {
     setSelectedRegionId((selected) => (selected === regionId ? null : regionId))
+  }
 
   return (
     <div className="flex flex-col h-screen overflow-hidden" style={{ background: '#060d18' }}>
@@ -59,14 +52,13 @@ export default function App() {
       ) : (
         <div className="flex flex-1 overflow-hidden relative">
           <LeftPanel
-            regions={displayRegions}
+            regions={regions}
             tier={tier}
             onRegionClick={(region) => handleRegionClick(region.id)}
             backendHealth={backendHealth}
             backendError={backendError}
-            providerConfig={providerConfig}
             collapsed={leftCollapsed}
-            onToggle={() => setLeftCollapsed((p) => !p)}
+            onToggle={() => setLeftCollapsed((previous) => !previous)}
           />
 
           <div className="flex-1 relative overflow-hidden">
@@ -76,18 +68,18 @@ export default function App() {
                 background: 'radial-gradient(ellipse 70% 60% at 50% 50%, rgba(56,189,248,0.035) 0%, transparent 70%)',
               }}
             />
-            <GlobeCanvas regions={displayRegions} onRegionClick={(region) => handleRegionClick(region.id)} />
+            <GlobeCanvas regions={regions} onRegionClick={(region) => handleRegionClick(region.id)} />
             <RegionDetail region={selectedRegion} onClose={() => setSelectedRegionId(null)} />
 
             <div className="absolute top-4 left-1/2 -translate-x-1/2 pointer-events-none">
               <div className="text-[9px] font-mono tracking-[0.25em] text-center" style={{ color: 'rgba(56,189,248,0.2)' }}>
-                FLAT PROJECTION · EQUIRECTANGULAR
+                FLAT PROJECTION - EQUIRECTANGULAR
               </div>
             </div>
           </div>
 
           <RightPanel
-            regions={displayRegions}
+            regions={regions}
             selectedRegion={selectedRegion}
             decisions={decisions}
             traces={traces}

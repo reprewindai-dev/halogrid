@@ -1,7 +1,5 @@
 import { ChevronLeft, ChevronRight, Waves, Zap } from 'lucide-react'
 import type { BackendHealth, Region, Tier } from '../types'
-import type { ProviderConfigStatus } from '../hooks/useProviderConfig'
-import { SIGNAL_PROVIDERS } from '../lib/simulation'
 import { actionColor, actionLabel, stateColor } from '../lib/utils'
 import { humanizeMode } from '../lib/backend'
 
@@ -13,7 +11,6 @@ interface Props {
   onToggle: () => void
   backendHealth: BackendHealth | null
   backendError: string | null
-  providerConfig: ProviderConfigStatus | null
 }
 
 function pct(value: number) {
@@ -45,7 +42,6 @@ export default function LeftPanel({
   onToggle,
   backendHealth,
   backendError,
-  providerConfig,
 }: Props) {
   const sortedRegions = [...regions].sort((a, b) => a.carbon - b.carbon)
   const averageLoad = Math.round(regions.reduce((sum, region) => sum + region.load, 0) / Math.max(regions.length, 1))
@@ -61,69 +57,7 @@ export default function LeftPanel({
         }
       })
     : []
-  const liveProviders = backendHealth
-    ? [
-        ...backendProviders,
-        ...(!backendProviders.some((provider) => provider.name === 'Open-Meteo') ? [{
-              name: 'Open-Meteo',
-              type: 'water' as const,
-              authority: providerConfig?.openMeteo ? 'Public live meteo-water feed' : 'Unavailable',
-              status: providerConfig?.openMeteo ? 'healthy' : 'offline',
-              freshness: providerConfig?.openMeteo ? 0 : 999,
-            }]
-          : []),
-        ...(!backendProviders.some((provider) => provider.name === 'Aqueduct') ? [{
-              name: 'Aqueduct',
-              type: 'water' as const,
-              authority: providerConfig?.aqueduct ? 'Versioned baseline water dataset' : 'Dataset unavailable',
-              status: providerConfig?.aqueduct ? 'healthy' : 'offline',
-              freshness: providerConfig?.aqueduct ? 0 : 999,
-            }]
-          : []),
-        ...(!backendProviders.some((provider) => provider.name === 'Tomorrow.io') ? [{
-              name: 'Tomorrow.io',
-              type: 'water' as const,
-              authority: providerConfig?.tomorrow ? 'Premium weather fallback' : 'Forecast intelligence',
-              status: providerConfig?.tomorrow ? 'degraded' : 'offline',
-              freshness: providerConfig?.tomorrow ? 0 : 999,
-            }]
-          : []),
-        ...(!backendProviders.some((provider) => provider.name === 'Ember') ? [{
-              name: 'Ember',
-              type: 'carbon' as const,
-              authority: providerConfig?.ember ? 'Server proxy configured' : 'Power data dataset',
-              status: providerConfig?.ember ? 'degraded' : 'offline',
-              freshness: providerConfig?.ember ? 0 : 999,
-            }]
-          : []),
-        ...(!backendProviders.some((provider) => provider.name === 'GridStatus') ? [{
-              name: 'GridStatus',
-              type: 'carbon' as const,
-              authority: providerConfig?.gridstatus ? 'Server proxy configured' : 'Grid data network',
-              status: providerConfig?.gridstatus ? 'degraded' : 'offline',
-              freshness: providerConfig?.gridstatus ? 0 : 999,
-            }]
-          : []),
-        ...(!backendProviders.some((provider) => provider.name === 'WattTime') ? [{
-              name: 'WattTime',
-              type: 'carbon' as const,
-              authority: providerConfig?.watttime ? 'Server proxy configured' : 'Marginal emissions',
-              status: providerConfig?.watttime ? 'degraded' : 'offline',
-              freshness: providerConfig?.watttime ? 0 : 999,
-            }]
-          : []),
-      ]
-    : SIGNAL_PROVIDERS.map((provider) =>
-        provider.name === 'Tomorrow.io' && providerConfig?.tomorrow
-          ? { ...provider, status: 'healthy' as const, freshness: 0, authority: 'Server proxy configured' }
-          : provider.name === 'Open-Meteo' && providerConfig?.openMeteo
-            ? { ...provider, status: 'healthy' as const, freshness: 0, authority: 'Public live meteo-water feed' }
-            : provider.name === 'Aqueduct' && providerConfig?.aqueduct
-              ? { ...provider, status: 'healthy' as const, freshness: 0, authority: 'Versioned baseline water dataset' }
-          : provider.name === 'WattTime' && providerConfig?.watttime
-            ? { ...provider, status: 'healthy' as const, freshness: 0, authority: 'Server proxy configured' }
-            : provider,
-      )
+  const liveProviders = backendProviders
 
   return (
     <aside
@@ -286,11 +220,12 @@ export default function LeftPanel({
                 )}
                 {backendError && !backendHealth && (
                   <div className="mb-2 rounded-xl px-2 py-2 text-[9px] font-mono text-amber-300" style={{ background: 'rgba(251,191,36,0.08)' }}>
-                    Render health unavailable. Using local fallback signals.
+                    Render health is unavailable. This panel only reports deployed backend providers and does not fall back to local provider claims.
                   </div>
                 )}
-                <div className="space-y-2">
-                  {liveProviders.map((provider) => {
+                {liveProviders.length > 0 ? (
+                  <div className="space-y-2">
+                    {liveProviders.map((provider) => {
                     const Icon = provider.type === 'water' ? Waves : Zap
                     const statusColor =
                       provider.status === 'healthy' ? '#4ade80' : provider.status === 'degraded' ? '#fbbf24' : '#f87171'
@@ -312,8 +247,13 @@ export default function LeftPanel({
                         </div>
                       </div>
                     )
-                  })}
-                </div>
+                    })}
+                  </div>
+                ) : (
+                  <div className="rounded-xl px-2 py-3 text-[9px] font-mono text-slate-500" style={{ background: 'rgba(255,255,255,0.025)' }}>
+                    No deployed provider inventory is available from this runtime beyond the Render health response.
+                  </div>
+                )}
               </div>
             </div>
           )}

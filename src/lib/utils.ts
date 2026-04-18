@@ -6,10 +6,10 @@ export const stateColor = (s: RegionState): string =>
 export const actionColor = (a: RouterAction): string => {
   const map: Record<RouterAction, string> = {
     SHIFT_REGION: '#38bdf8',
-    DEFER_JOB:    '#a78bfa',
-    THROTTLE:     '#fbbf24',
-    HOLD:         '#f87171',
-    PASS:         '#4ade80',
+    DEFER_JOB: '#a78bfa',
+    THROTTLE: '#fbbf24',
+    HOLD: '#f87171',
+    PASS: '#4ade80',
   }
   return map[a]
 }
@@ -17,10 +17,10 @@ export const actionColor = (a: RouterAction): string => {
 export const actionLabel = (a: RouterAction): string => {
   const map: Record<RouterAction, string> = {
     SHIFT_REGION: 'SHIFT',
-    DEFER_JOB:    'DEFER',
-    THROTTLE:     'THROT',
-    HOLD:         'HOLD',
-    PASS:         'PASS',
+    DEFER_JOB: 'DEFER',
+    THROTTLE: 'THROT',
+    HOLD: 'HOLD',
+    PASS: 'PASS',
   }
   return map[a]
 }
@@ -29,7 +29,7 @@ export const formatTime = (ts: number): string =>
   new Date(ts).toLocaleTimeString('en-CA', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })
 
 export const formatHash = (hash: string, len = 8): string =>
-  `${hash.slice(0, len)}…`
+  `${hash.slice(0, len)}...`
 
 export const clamp = (v: number, min: number, max: number): number =>
   Math.min(max, Math.max(min, v))

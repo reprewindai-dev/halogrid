@@ -71,7 +71,7 @@ export function useAdvisor({
           summary: 'No operator action needed. The current route is the strongest option in the active routing mesh.',
           reasons: [
             `${active.name} is ranked first across carbon, renewable mix, load, and water posture.`,
-            `Current route score is ${activeScore}, which is the strongest score in the live region set.`,
+            `Current route score is ${activeScore}, which is the strongest score in the current region set.`,
           ],
         }),
       )
@@ -138,16 +138,27 @@ export function useAdvisor({
       )
     }
 
-    if (!backendHealth) {
+    if (backendHealth) {
+      suggestions.push(
+        makeSuggestion({
+          id: 'live-health-sim-decisions',
+          status: 'info',
+          title: 'Backend health is live, routing stream is simulated',
+          summary: 'This surface is receiving deployed Render health, but decisions and traces are still generated locally in this runtime.',
+          reasons: [
+            `${Object.values(backendHealth.providers).filter(Boolean).length}/${Object.keys(backendHealth.providers).length} backend providers are online.`,
+            'No deployed decision or trace feed is exposed to this frontend runtime.',
+          ],
+        }),
+      )
+    } else {
       suggestions.push(
         makeSuggestion({
           id: 'simulation-mode',
           status: 'info',
-          title: 'Advisor is operating in local simulation mode',
-          summary: 'Recommendations are being generated from the local region state until the backend control plane is available.',
-          reasons: [
-            `Active regions: ${metrics.activeRegions}. Alerts: ${metrics.alertCount}.`,
-          ],
+          title: 'Advisor is operating in simulation mode',
+          summary: 'Recommendations are being generated from the local region state because no deployed backend health response is available.',
+          reasons: [`Active regions: ${metrics.activeRegions}. Alerts: ${metrics.alertCount}.`],
         }),
       )
     }

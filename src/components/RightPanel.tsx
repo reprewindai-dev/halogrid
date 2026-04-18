@@ -37,27 +37,19 @@ export default function RightPanel({ regions, selectedRegion, decisions, traces,
   const advisor = useAdvisor({ regions, selectedRegion, decisions, metrics, backendHealth })
 
   return (
-    <aside
-      className="panel-glass z-20 flex h-full w-[360px] flex-shrink-0 flex-col border-l"
-      style={{ borderColor: 'rgba(56,189,248,0.08)' }}
-    >
+    <aside className="panel-glass z-20 flex h-full w-[360px] flex-shrink-0 flex-col border-l" style={{ borderColor: 'rgba(56,189,248,0.08)' }}>
       <div className="flex-1 overflow-hidden px-3 py-3">
         <PanelHeader
           title="DECISION STREAM"
-          subtitle={tier === 'freeview' ? 'Live regional actions' : 'Weighted routing actions with policy confidence'}
+          subtitle={tier === 'freeview' ? 'Simulation-backed regional actions' : 'Simulation-backed routing actions with live backend health'}
         />
 
         <div className="scrollbar-thin h-[58%] overflow-y-auto pr-1">
           {visibleDecisions.length > 0 ? (
-            visibleDecisions.map((decision, index) => (
-              <DecisionCard key={decision.id} decision={decision} tier={tier} index={index} />
-            ))
+            visibleDecisions.map((decision, index) => <DecisionCard key={decision.id} decision={decision} tier={tier} index={index} />)
           ) : (
-            <div
-              className="rounded-2xl px-4 py-6 text-center text-[10px] font-mono tracking-[0.18em] text-slate-500"
-              style={{ background: 'rgba(255,255,255,0.02)' }}
-            >
-              Awaiting live routing decisions
+            <div className="rounded-2xl px-4 py-6 text-center text-[10px] font-mono tracking-[0.18em] text-slate-500" style={{ background: 'rgba(255,255,255,0.02)' }}>
+              No simulated routing actions are currently queued
             </div>
           )}
         </div>
@@ -87,23 +79,17 @@ export default function RightPanel({ regions, selectedRegion, decisions, traces,
               <div className="mt-3 grid grid-cols-3 gap-2">
                 <div>
                   <div className="text-[8px] font-mono tracking-[0.16em] text-slate-500">PROVIDERS</div>
-                  <div className="mt-1 text-[11px] font-medium text-sky-400">
-                    {backendHealth ? `${onlineProviders}/${totalProviders}` : '--'}
-                  </div>
+                  <div className="mt-1 text-[11px] font-medium text-sky-400">{backendHealth ? `${onlineProviders}/${totalProviders}` : '--'}</div>
                 </div>
                 <div>
                   <div className="text-[8px] font-mono tracking-[0.16em] text-slate-500">DB / REDIS</div>
                   <div className="mt-1 text-[11px] font-medium text-emerald-400">
-                    {backendHealth
-                      ? `${backendHealth.dependencies.database ? 'up' : 'down'} / ${backendHealth.dependencies.redis ? 'up' : 'down'}`
-                      : '--'}
+                    {backendHealth ? `${backendHealth.dependencies.database ? 'up' : 'down'} / ${backendHealth.dependencies.redis ? 'up' : 'down'}` : '--'}
                   </div>
                 </div>
                 <div>
                   <div className="text-[8px] font-mono tracking-[0.16em] text-slate-500">REV</div>
-                  <div className="mt-1 text-[11px] font-medium text-amber-300">
-                    {backendHealth ? shortRevision(backendHealth.build.revision) : '--'}
-                  </div>
+                  <div className="mt-1 text-[11px] font-medium text-amber-300">{backendHealth ? shortRevision(backendHealth.build.revision) : '--'}</div>
                 </div>
               </div>
             </div>
@@ -111,32 +97,19 @@ export default function RightPanel({ regions, selectedRegion, decisions, traces,
 
           <PanelHeader
             title={tier === 'elite' ? 'TRACE RAIL' : 'CONTROL PLANE'}
-            subtitle={
-              tier === 'elite'
-                ? 'Proof-carrying action ledger'
-                : tier === 'core'
-                  ? 'Confidence and signal posture'
-                  : 'Upgrade to Core for deeper routing telemetry'
-            }
+            subtitle={tier === 'elite' ? 'Simulation trace samples' : tier === 'core' ? 'Deployed backend posture and simulation truth' : 'Upgrade to Core for deeper simulation telemetry'}
           />
 
           {tier === 'elite' ? (
             <div className="scrollbar-thin h-[30%] space-y-2 overflow-y-auto pr-1">
               {visibleTraces.map((trace) => (
-                <div
-                  key={trace.id}
-                  className="rounded-2xl px-3 py-2.5"
-                  style={{ background: 'rgba(255,255,255,0.02)', border: `1px solid ${actionColor(trace.action)}18` }}
-                >
+                <div key={trace.id} className="rounded-2xl px-3 py-2.5" style={{ background: 'rgba(255,255,255,0.02)', border: `1px solid ${actionColor(trace.action)}18` }}>
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] font-semibold text-slate-200">{trace.regionName}</span>
                     <span className="text-[8px] font-mono text-slate-500">{formatTime(trace.timestamp)}</span>
                   </div>
                   <div className="mt-2 flex items-center justify-between">
-                    <span
-                      className="rounded-full px-2 py-1 text-[8px] font-mono tracking-[0.18em]"
-                      style={{ color: actionColor(trace.action), background: `${actionColor(trace.action)}18` }}
-                    >
+                    <span className="rounded-full px-2 py-1 text-[8px] font-mono tracking-[0.18em]" style={{ color: actionColor(trace.action), background: `${actionColor(trace.action)}18` }}>
                       {actionLabel(trace.action)}
                     </span>
                     <span className="text-[8px] font-mono text-slate-500">{formatHash(trace.proofHash, 14)}</span>
@@ -149,29 +122,17 @@ export default function RightPanel({ regions, selectedRegion, decisions, traces,
               {[
                 {
                   label: 'Mode',
-                  value: backendHealth
-                    ? `${backendHealth.engine} / router ${backendHealth.router ? 'enabled' : 'disabled'}`
-                    : tier === 'core'
-                      ? 'Policy-backed live routing'
-                      : 'Frontend-only visibility',
+                  value: backendHealth ? 'Backend health live - decisions simulated' : 'Backend health unavailable - decisions simulated',
                   color: '#38bdf8',
                 },
                 {
                   label: 'Confidence',
-                  value: backendHealth
-                    ? `${onlineProviders}/${totalProviders} provider feeds online`
-                    : tier === 'core'
-                      ? '72-99% weighted decisions'
-                      : 'Decision confidence locked',
+                  value: backendHealth ? `${onlineProviders}/${totalProviders} backend providers online` : 'No deployed decision or provider feed available',
                   color: '#a78bfa',
                 },
                 {
                   label: 'Audit',
-                  value: backendHealth
-                    ? `${backendHealth.checks.waterArtifacts?.regionCount ?? 0} water regions loaded`
-                    : tier === 'core'
-                      ? 'Trace rail reserved for Elite'
-                      : 'Trace rail unavailable',
+                  value: backendHealth ? `${backendHealth.checks.waterArtifacts?.regionCount ?? 0} water regions loaded` : 'No deployed trace or water feed exposed to this frontend',
                   color: '#fbbf24',
                 },
               ].map((item) => (
