@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CO2 Router Operator's Manual</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b1114;
+      --surface: #111a1f;
+      --surface-2: #162228;
+      --surface-3: #1b2b32;
+      --border: rgba(120, 156, 168, 0.18);
+      --text: #e7f2f4;
+      --muted: #93aab0;
+      --faint: #5f767d;
+      --primary: #63d3df;
+      --primary-2: #2aa8b5;
+      --warn: #f1ba4e;
+      --danger: #ff6d7a;
+      --success: #66d19e;
+      --shadow: 0 20px 60px rgba(0,0,0,.35);
+      --radius: 20px;
+      --radius-sm: 12px;
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'Inter', sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: radial-gradient(circle at top, rgba(42,168,181,.12), transparent 30%), var(--bg); color: var(--text); font-family: var(--sans); }
+    a { color: inherit; text-decoration: none; }
+    .app { display: grid; grid-template-columns: 300px 1fr; min-height: 100vh; }
+    .sidebar {
+      position: sticky; top: 0; height: 100vh; overflow: auto; padding: 24px; border-right: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(16,26,31,.98), rgba(9,15,18,.98)); backdrop-filter: blur(14px);
+    }
+    .brand { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
+    .logo {
+      width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(99,211,223,.45); display: grid; place-items: center;
+      background: radial-gradient(circle, rgba(99,211,223,.18), rgba(99,211,223,.02)); box-shadow: 0 0 30px rgba(99,211,223,.18);
+    }
+    .logo svg { width: 28px; height: 28px; }
+    .brand h1 { margin: 0; font-size: 1rem; letter-spacing: .08em; text-transform: uppercase; }
+    .brand p { margin: 4px 0 0; color: var(--muted); font-size: .83rem; }
+    .search { width: 100%; padding: 12px 14px; border-radius: 14px; background: var(--surface); border: 1px solid var(--border); color: var(--text); margin: 14px 0 18px; }
+    .nav-group { margin-bottom: 18px; }
+    .nav-label { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--faint); margin: 10px 0; }
+    .nav a {
+      display: block; padding: 10px 12px; margin-bottom: 6px; border-radius: 12px; color: var(--muted); border: 1px solid transparent;
+      transition: .2s ease;
+    }
+    .nav a:hover, .nav a.active { color: var(--text); background: rgba(99,211,223,.08); border-color: rgba(99,211,223,.18); transform: translateX(2px); }
+    .main { padding: 28px; }
+    .hero {
+      position: relative; overflow: hidden; border: 1px solid var(--border); border-radius: 28px; padding: 32px; margin-bottom: 24px;
+      background: linear-gradient(135deg, rgba(18,33,39,.95), rgba(10,16,19,.96)); box-shadow: var(--shadow);
+    }
+    .hero::after {
+      content: ''; position: absolute; inset: auto -10% -35% auto; width: 420px; height: 420px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(99,211,223,.16), transparent 60%); pointer-events: none;
+    }
+    .kicker { color: var(--primary); text-transform: uppercase; letter-spacing: .18em; font-size: .76rem; }
+    .hero h2 { font-size: clamp(2rem, 5vw, 4rem); line-height: 1.03; margin: 12px 0 10px; max-width: 11ch; }
+    .hero p { max-width: 64ch; color: var(--muted); font-size: 1.02rem; }
+    .hero-grid { display: grid; grid-template-columns: 1.3fr .9fr; gap: 18px; margin-top: 28px; }
+    .card {
+      background: linear-gradient(180deg, rgba(20,33,39,.95), rgba(15,24,29,.9)); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 20px; box-shadow: var(--shadow);
+    }
+    .card h3 { margin: 0 0 10px; font-size: 1rem; letter-spacing: .04em; }
+    .card p, .card li { color: var(--muted); line-height: 1.65; }
+    .status-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
+    .mini {
+      padding: 14px; border-radius: 16px; background: rgba(255,255,255,.02); border: 1px solid var(--border);
+    }
+    .mini .label { font-size: .7rem; text-transform: uppercase; letter-spacing: .14em; color: var(--faint); }
+    .mini .value { margin-top: 8px; font-size: 1.3rem; font-weight: 800; }
+    .content-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 20px; }
+    section.doc-section { margin-bottom: 20px; scroll-margin-top: 24px; }
+    .section-head { display:flex; justify-content:space-between; gap:14px; align-items:flex-start; margin-bottom: 14px; }
+    .section-head h3 { margin:0; font-size:1.35rem; }
+    .pill { padding: 7px 10px; border-radius: 999px; font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+    .pill.teal { background: rgba(99,211,223,.12); color: var(--primary); border: 1px solid rgba(99,211,223,.2); }
+    .pill.amber { background: rgba(241,186,78,.12); color: var(--warn); border: 1px solid rgba(241,186,78,.2); }
+    .pill.red { background: rgba(255,109,122,.12); color: var(--danger); border: 1px solid rgba(255,109,122,.2); }
+    .callout {
+      margin-top: 14px; padding: 16px 18px; border-radius: 16px; background: rgba(99,211,223,.05); border: 1px solid rgba(99,211,223,.14);
+    }
+    .table-wrap { overflow:auto; }
+    table { width:100%; border-collapse: collapse; font-size: .95rem; }
+    th, td { text-align:left; padding: 12px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { color: var(--text); font-size: .8rem; text-transform: uppercase; letter-spacing: .12em; }
+    .code {
+      font-family: var(--mono); font-size: .87rem; padding: 12px 14px; border-radius: 14px; background: #0b1418; border:1px solid var(--border); overflow:auto;
+    }
+    .easter-list { display:grid; gap:12px; }
+    .egg { padding: 14px 16px; border-radius: 16px; border:1px solid var(--border); background: rgba(255,255,255,.02); }
+    .egg strong { color: var(--text); }
+    .toc-mobile { display: none; }
+    .footer-note { color: var(--faint); font-size: .88rem; padding: 12px 2px 32px; }
+    .badge-row { display:flex; gap:10px; flex-wrap:wrap; margin-top: 16px; }
+    .badge { padding:8px 10px; border-radius:999px; background:rgba(255,255,255,.03); border:1px solid var(--border); color: var(--muted); font-size:.82rem; }
+    .progress {
+      position: fixed; top: 0; left: 0; height: 3px; width: 0%; z-index: 60;
+      background: linear-gradient(90deg, var(--primary), var(--warn)); box-shadow: 0 0 18px rgba(99,211,223,.4);
+    }
+    .floating-help {
+      position: fixed; right: 20px; bottom: 20px; width: 54px; height: 54px; border-radius: 50%; display:grid; place-items:center;
+      background: linear-gradient(135deg, var(--primary-2), var(--primary)); color:#041013; font-weight:900; box-shadow: var(--shadow); cursor:pointer;
+      border:none;
+    }
+    .modal {
+      position: fixed; inset: 0; background: rgba(0,0,0,.55); display:none; align-items:center; justify-content:center; padding:20px; z-index:100;
+    }
+    .modal.open { display:flex; }
+    .modal-panel {
+      width:min(720px, 100%); max-height: 82vh; overflow:auto; border-radius: 24px; background: linear-gradient(180deg, #0e171b, #121f25);
+      border:1px solid var(--border); box-shadow: var(--shadow); padding: 24px;
+    }
+    .close-btn { float:right; background:transparent; color:var(--muted); border:1px solid var(--border); border-radius:10px; padding:8px 10px; cursor:pointer; }
+    .hidden { display:none; }
+    mark { background: rgba(241,186,78,.2); color: #ffe4a8; padding: 0 .2em; border-radius: 4px; }
+    @media (max-width: 980px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar { position: relative; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+      .hero-grid, .content-grid { grid-template-columns: 1fr; }
+      .toc-mobile { display:block; margin-top:14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo" id="logoTap" title="Try clicking me more than once">
+          <svg viewBox="0 0 28 28" fill="none" aria-hidden="true">
+            <circle cx="14" cy="14" r="11" stroke="currentColor" stroke-width="1.4" opacity=".9"></circle>
+            <circle cx="14" cy="14" r="6.5" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2" opacity=".75"></circle>
+            <circle cx="14" cy="14" r="2.5" fill="currentColor"></circle>
+            <path d="M14 1.8V26.2M1.8 14H26.2" stroke="currentColor" stroke-width=".9" opacity=".45"></path>
+          </svg>
+        </div>
+        <div>
+          <h1>CO2 Router</h1>
+          <p id="brandSub">Operator's Manual</p>
+        </div>
+      </div>
+      <input class="search" id="searchInput" type="search" placeholder="Search the manual…" />
+      <div class="nav-group">
+        <div class="nav-label">Manual</div>
+        <nav class="nav" id="nav">
+          <a href="#overview">Overview</a>
+          <a href="#layout">Command Center</a>
+          <a href="#topbar">Top Bar</a>
+          <a href="#leftpanel">Left Panel</a>
+          <a href="#centercanvas">Center Canvas</a>
+          <a href="#rightpanel">Right Panel</a>
+          <a href="#bottombar">Bottom Bar</a>
+          <a href="#score">CO2 Score</a>
+          <a href="#colors">Route Colors</a>
+          <a href="#alerts">Alerts</a>
+          <a href="#intensity">Grid Intensity</a>
+          <a href="#zones">Zones</a>
+          <a href="#eggs">Hidden Gems</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+      </div>
+      <div class="nav-group">
+        <div class="nav-label">Fast Facts</div>
+        <div class="badge-row">
+          <span class="badge">Live routing</span>
+          <span class="badge">Carbon-aware</span>
+          <span class="badge">Operator UI</span>
+          <span class="badge">Demo-ready</span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section class="hero" id="overview">
+        <div class="kicker">Operator's Manual · Command Center Edition</div>
+        <h2>Infrastructure, but with a carbon conscience.</h2>
+        <p>
+          This manual explains the CO2 Router command center the way an operator, buyer, or prospect needs it explained: what each panel means, what the numbers mean, how the system behaves, and where the hidden touches live.
+        </p>
+        <div class="hero-grid">
+          <div class="card">
+            <h3>What this product is</h3>
+            <p>CO2 Router monitors regional electricity carbon intensity and helps route traffic through cleaner cloud pathways in real time. It turns live infrastructure decisions into a visual command system instead of a black box.</p>
+            <div class="status-row">
+              <div class="mini"><div class="label">System</div><div class="value">Nominal</div></div>
+              <div class="mini"><div class="label">Live Score</div><div class="value">87</div></div>
+              <div class="mini"><div class="label">Mode</div><div class="value">Operator</div></div>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Who this is for</h3>
+            <ul>
+              <li>Operators overseeing live routing behavior</li>
+              <li>Teams evaluating cleaner cloud infrastructure choices</li>
+              <li>Customers buying CO2 Router as a decision and visibility layer</li>
+            </ul>
+            <div class="callout"><strong>Important:</strong> this is not a local dev setup guide. It is a customer-facing operator manual.</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="content-grid">
+        <div>
+          <section class="doc-section card" id="layout">
+            <div class="section-head"><h3>The Command Center</h3><span class="pill teal">5 Zones</span></div>
+            <p>The interface is divided into a top bar, left intelligence rail, center routing matrix, right efficiency stack, and bottom telemetry bar. Each zone exists to answer a different operator question: What is happening, where is it happening, how clean is it, and do I need to intervene?</p>
+            <div class="code">TOP BAR → system status + score + controls
+LEFT PANEL → route nodes + live alerts
+CENTER CANVAS → global routing matrix
+RIGHT PANEL → trend + efficiency gauges
+BOTTOM BAR → live telemetry strip</div>
+          </section>
+
+          <section class="doc-section card" id="topbar">
+            <div class="section-head"><h3>Top Bar</h3><span class="pill teal">Vitals</span></div>
+            <p>The top bar is your fastest health check. It contains the system status, the live CO2 Score pill, and controls.</p>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Element</th><th>Meaning</th></tr></thead>
+                <tbody>
+                  <tr><td>System Status</td><td><strong>NOMINAL</strong> means routes are healthy; <strong>DEGRADED</strong> means the system is compensating; <strong>CRITICAL</strong> means operator attention is recommended.</td></tr>
+                  <tr><td>CO2 Score Pill</td><td>The live 0–100 carbon efficiency reading for the active route.</td></tr>
+                  <tr><td>Pulse Effect</td><td>A visual heartbeat confirming fresh data has arrived.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="doc-section card" id="leftpanel">
+            <div class="section-head"><h3>Left Panel</h3><span class="pill amber">Route Intelligence</span></div>
+            <p>This panel is the route roster and alert feed. Every row represents a region the system can evaluate or use. The highlighted route is the one currently active.</p>
+            <div class="callout">Each route row shows a region ID, current route score, and grid intensity in gCO₂/kWh. Lower intensity usually means a cleaner path.</div>
+          </section>
+
+          <section class="doc-section card" id="centercanvas">
+            <div class="section-head"><h3>Center Canvas</h3><span class="pill teal">Routing Matrix</span></div>
+            <p>The center canvas is the visual identity of the product. Glowing nodes represent regions, and dashed links represent candidate pathways. It is less a map than a routing theater.</p>
+            <ul>
+              <li>Teal nodes indicate strong carbon performance</li>
+              <li>Amber nodes indicate moderate performance</li>
+              <li>Red nodes indicate high-emission regions that should usually be avoided</li>
+            </ul>
+          </section>
+
+          <section class="doc-section card" id="rightpanel">
+            <div class="section-head"><h3>Right Panel</h3><span class="pill teal">Trend & Efficiency</span></div>
+            <p>The right stack answers two questions: how the system has been performing, and which global zones are strongest right now. The chart tells the story over time; the gauges tell the story at a glance.</p>
+          </section>
+
+          <section class="doc-section card" id="bottombar">
+            <div class="section-head"><h3>Bottom Bar</h3><span class="pill teal">Live Telemetry</span></div>
+            <p>The lower strip is a compact KPI deck. It tracks latency, saved emissions, reroutes, uptime, and warnings. It is meant for constant peripheral awareness rather than deep reading.</p>
+          </section>
+
+          <section class="doc-section card" id="score">
+            <div class="section-head"><h3>Understanding the CO2 Score</h3><span class="pill teal">Core Metric</span></div>
+            <p>The CO2 Score is the product's headline metric. It translates regional carbon intensity into a single number that is easy to understand without hiding the seriousness underneath.</p>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Score</th><th>Interpretation</th></tr></thead>
+                <tbody>
+                  <tr><td>85–100</td><td>Excellent — the route is among the cleanest currently available</td></tr>
+                  <tr><td>70–84</td><td>Good — the system is in a healthy range with room for improvement</td></tr>
+                  <tr><td>50–69</td><td>Fair — cleaner alternatives may exist or be emerging</td></tr>
+                  <tr><td>Below 50</td><td>Poor — operator review or automatic reroute is expected</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="doc-section card" id="colors">
+            <div class="section-head"><h3>Route Colors</h3><span class="pill amber">Visual Language</span></div>
+            <p>The color system is consistent across route lists, canvas nodes, alerts, and efficiency indicators.</p>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Color</th><th>Status</th><th>Meaning</th></tr></thead>
+                <tbody>
+                  <tr><td>Teal</td><td>Optimal / Active</td><td>Best current route or healthiest state</td></tr>
+                  <tr><td>Amber</td><td>Warn</td><td>Elevated emissions or reduced efficiency</td></tr>
+                  <tr><td>Red</td><td>High</td><td>High-emission region or critical condition</td></tr>
+                  <tr><td>Gray</td><td>Offline</td><td>Unavailable or data missing</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="doc-section card" id="alerts">
+            <div class="section-head"><h3>Alert Levels</h3><span class="pill red">Needs Attention</span></div>
+            <p>Alerts appear in natural language so operators do not need to decode raw logs. Most alert types are informational. Critical alerts should be reviewed.</p>
+          </section>
+
+          <section class="doc-section card" id="intensity">
+            <div class="section-head"><h3>Grid Intensity</h3><span class="pill amber">gCO₂/kWh</span></div>
+            <p>Grid intensity measures how much carbon is emitted to generate a unit of electricity in a region. Lower numbers mean cleaner electricity and cleaner routing decisions.</p>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Range</th><th>Rating</th><th>Typical Mix</th></tr></thead>
+                <tbody>
+                  <tr><td>0–100</td><td>Excellent</td><td>Hydro, wind, solar dominant</td></tr>
+                  <tr><td>101–200</td><td>Good</td><td>Mixed grid with moderate renewables</td></tr>
+                  <tr><td>201–350</td><td>Fair</td><td>Heavier fossil fuel usage</td></tr>
+                  <tr><td>351+</td><td>Poor</td><td>Carbon-heavy grid conditions</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="doc-section card" id="zones">
+            <div class="section-head"><h3>Zones</h3><span class="pill teal">Global Snapshot</span></div>
+            <p>The zone gauges provide an at-a-glance read on each major geography. They are designed for comparison speed, not deep analysis.</p>
+          </section>
+
+          <section class="doc-section card" id="eggs">
+            <div class="section-head"><h3>Hidden Gems</h3><span class="pill teal">Easter Eggs</span></div>
+            <div class="easter-list">
+              <div class="egg"><strong>Konami Grid:</strong> entering the classic code on the matrix view forces a brief perfect-score pulse across all nodes.</div>
+              <div class="egg"><strong>Gold Score:</strong> hitting a live score of 99 turns the score pill gold for the session.</div>
+              <div class="egg"><strong>Node Streak:</strong> clicking multiple nodes rapidly triggers cascade mode.</div>
+              <div class="egg"><strong>Offline Drift:</strong> if the backend drops, nodes drift subtly instead of dying cold.</div>
+              <div class="egg"><strong>Hidden KPI:</strong> clicking the SAVED value repeatedly swaps the unit to a human-friendly equivalent.</div>
+              <div class="egg"><strong>Logo Secret:</strong> repeated logo taps reveal a hidden line of copy.</div>
+            </div>
+          </section>
+
+          <section class="doc-section card" id="faq">
+            <div class="section-head"><h3>FAQ</h3><span class="pill teal">Operator Notes</span></div>
+            <p><strong>Does CO2 Router slow traffic down?</strong><br>Not materially. Route evaluation happens before dispatch and is designed to be lightweight.</p>
+            <p><strong>Can operators force a route?</strong><br>Yes. A node can be selected manually, after which the UI indicates override state until auto mode resumes.</p>
+            <p><strong>Why does the score move even if nothing changed?</strong><br>Because regional grids are alive. Renewable output and energy demand change constantly.</p>
+          </section>
+
+          <div class="footer-note">CO2 Router · Command Center Operator's Manual · interactive web edition</div>
+        </div>
+
+        <div>
+          <section class="card">
+            <div class="section-head"><h3>Quick Read</h3><span class="pill teal">60 Seconds</span></div>
+            <p>If you only remember three things, remember these: the CO2 Score tells you how clean the active route is, the center matrix shows where routing choices exist, and the left rail tells you when something needs attention.</p>
+          </section>
+
+          <section class="card" style="margin-top:20px;">
+            <div class="section-head"><h3>Operator Checklist</h3><span class="pill amber">Daily</span></div>
+            <ul>
+              <li>Check the top bar for system status and live pulse</li>
+              <li>Watch for amber or red nodes in the left route list</li>
+              <li>Use the right panel trend to confirm sustained improvement</li>
+              <li>Review critical alerts before forcing manual override</li>
+            </ul>
+          </section>
+
+          <section class="card" style="margin-top:20px;">
+            <div class="section-head"><h3>Discoveries</h3><span class="pill teal">Interactive</span></div>
+            <p>This manual has its own tiny secrets too. Try the following:</p>
+            <ul>
+              <li>Click the logo 7 times</li>
+              <li>Press <span class="code" style="display:inline-block;padding:4px 8px;">Shift + /</span> to open manual help</li>
+              <li>Use search to live-highlight matching terms</li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <button class="floating-help" id="helpBtn" aria-label="Open help">?</button>
+
+  <div class="modal" id="helpModal" aria-hidden="true">
+    <div class="modal-panel">
+      <button class="close-btn" id="closeModal">Close</button>
+      <h2>Manual Help</h2>
+      <p>This operator manual is interactive. Use the left navigation to jump between sections, the search field to highlight terms, and the floating help button to reopen this panel at any time.</p>
+      <ul>
+        <li><strong>Search:</strong> highlights matching text throughout the document.</li>
+        <li><strong>Nav:</strong> updates automatically as you scroll.</li>
+        <li><strong>Logo secret:</strong> repeated taps reveal a hidden line.</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const links = [...document.querySelectorAll('#nav a')];
+    const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    const progress = document.getElementById('progress');
+    const searchInput = document.getElementById('searchInput');
+    const helpBtn = document.getElementById('helpBtn');
+    const helpModal = document.getElementById('helpModal');
+    const closeModal = document.getElementById('closeModal');
+    const brandSub = document.getElementById('brandSub');
+    const logoTap = document.getElementById('logoTap');
+    let logoCount = 0;
+
+    function clearMarks(node) {
+      node.querySelectorAll('mark').forEach(mark => {
+        const text = document.createTextNode(mark.textContent);
+        mark.replaceWith(text);
+      });
+    }
+
+    function highlightTerm(term) {
+      document.querySelectorAll('.doc-section, .hero, .card').forEach(clearMarks);
+      if (!term.trim()) return;
+      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+        acceptNode(node) {
+          if (!node.parentElement) return NodeFilter.FILTER_REJECT;
+          const tag = node.parentElement.tagName;
+          if (['SCRIPT','STYLE','MARK','INPUT'].includes(tag)) return NodeFilter.FILTER_REJECT;
+          if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      });
+      const nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+      const re = new RegExp(term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'ig');
+      nodes.forEach(node => {
+        if (!re.test(node.nodeValue)) return;
+        const span = document.createElement('span');
+        span.innerHTML = node.nodeValue.replace(re, m => `<mark>${m}</mark>`);
+        node.replaceWith(span);
+      });
+    }
+
+    searchInput.addEventListener('input', e => highlightTerm(e.target.value));
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id));
+        }
+      });
+    }, { rootMargin: '-30% 0px -55% 0px', threshold: 0.01 });
+    sections.forEach(section => observer.observe(section));
+
+    document.addEventListener('scroll', () => {
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      const pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+      progress.style.width = pct + '%';
+    }, { passive: true });
+
+    function openHelp() { helpModal.classList.add('open'); helpModal.setAttribute('aria-hidden','false'); }
+    function closeHelp() { helpModal.classList.remove('open'); helpModal.setAttribute('aria-hidden','true'); }
+    helpBtn.addEventListener('click', openHelp);
+    closeModal.addEventListener('click', closeHelp);
+    helpModal.addEventListener('click', (e) => { if (e.target === helpModal) closeHelp(); });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeHelp();
+      if (e.key === '?' || (e.shiftKey && e.key === '/')) { e.preventDefault(); openHelp(); }
+    });
+
+    logoTap.addEventListener('click', () => {
+      logoCount += 1;
+      if (logoCount >= 7) {
+        brandSub.textContent = 'Every packet has a price';
+        logoTap.animate([
+          { transform: 'scale(1)' },
+          { transform: 'scale(1.08)' },
+          { transform: 'scale(1)' }
+        ], { duration: 650, easing: 'cubic-bezier(.16,1,.3,1)' });
+        setTimeout(() => { brandSub.textContent = "Operator's Manual"; logoCount = 0; }, 2600);
+      }
+    });
+  </script>
+</body>
+</html>

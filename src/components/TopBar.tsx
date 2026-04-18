@@ -1,5 +1,5 @@
-import { Pause, Play, RotateCcw, Shield, Zap, Globe } from 'lucide-react'
-import type { SystemMetrics, Tier } from '../types'
+import { Pause, Play, RotateCcw, Shield, Zap, Globe, BookOpenText } from 'lucide-react'
+import type { SystemMetrics, Tier, ViewMode } from '../types'
 import { formatTime } from '../lib/utils'
 
 interface Props {
@@ -9,6 +9,8 @@ interface Props {
   onToggle: () => void
   onReset: () => void
   onTierChange: (t: Tier) => void
+  viewMode: ViewMode
+  onViewModeChange: (mode: ViewMode) => void
   time: number
 }
 
@@ -18,7 +20,7 @@ const TIER_CFG: { id: Tier; label: string; icon: typeof Shield }[] = [
   { id: 'elite',    label: 'Elite',    icon: Shield },
 ]
 
-export default function TopBar({ metrics, tier, paused, onToggle, onReset, onTierChange, time }: Props) {
+export default function TopBar({ metrics, tier, paused, onToggle, onReset, onTierChange, viewMode, onViewModeChange, time }: Props) {
   return (
     <header className="flex-shrink-0 flex items-center justify-between px-5 py-2.5"
       style={{ borderBottom:'1px solid rgba(56,189,248,0.07)', background:'rgba(6,13,24,0.92)', backdropFilter:'blur(24px)' }}>
@@ -58,10 +60,24 @@ export default function TopBar({ metrics, tier, paused, onToggle, onReset, onTie
 
       {/* Controls */}
       <div className="flex items-center gap-2">
-        {/* Tier pills */}
         <div className="flex gap-0.5 bg-white/[0.03] rounded-xl p-0.5 mr-2">
+          {[
+            { id: 'control' as const, label: 'Control', icon: Globe },
+            { id: 'blog' as const, label: 'Blog', icon: BookOpenText },
+          ].map(({ id, label }) => (
+            <button key={id} onClick={() => onViewModeChange(id)}
+              className="px-3 py-1 rounded-[10px] text-[9px] font-mono tracking-widest uppercase transition-all"
+              style={{ background:viewMode===id?'rgba(45,212,191,0.16)':'transparent', color:viewMode===id?'#2dd4bf':'#64748b',
+                       boxShadow: viewMode===id?'0 0 8px rgba(45,212,191,0.2)':undefined }}>
+              {label}
+            </button>
+          ))}
+        </div>
+
+        {/* Tier pills */}
+        <div className="flex gap-0.5 bg-white/[0.03] rounded-xl p-0.5 mr-2" style={{ opacity: viewMode === 'blog' ? 0.45 : 1 }}>
           {TIER_CFG.map(({ id, label }) => (
-            <button key={id} onClick={() => onTierChange(id)}
+            <button key={id} onClick={() => onTierChange(id)} disabled={viewMode === 'blog'}
               className="px-3 py-1 rounded-[10px] text-[9px] font-mono tracking-widest uppercase transition-all"
               style={{ background:tier===id?'rgba(56,189,248,0.15)':'transparent', color:tier===id?'#38bdf8':'#64748b',
                        boxShadow: tier===id?'0 0 8px rgba(56,189,248,0.2)':undefined }}>
@@ -70,16 +86,16 @@ export default function TopBar({ metrics, tier, paused, onToggle, onReset, onTie
           ))}
         </div>
 
-        <button onClick={onToggle}
+        <button onClick={onToggle} disabled={viewMode === 'blog'}
           className="w-8 h-8 rounded-xl flex items-center justify-center transition-all"
-          style={{ background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.08)' }}
+          style={{ background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.08)', opacity: viewMode === 'blog' ? 0.45 : 1 }}
           onMouseEnter={e => e.currentTarget.style.background='rgba(56,189,248,0.1)'}
           onMouseLeave={e => e.currentTarget.style.background='rgba(255,255,255,0.04)'}>
           {paused ? <Play size={13} color="#38bdf8"/> : <Pause size={13} color="#64748b"/>}
         </button>
-        <button onClick={onReset}
+        <button onClick={onReset} disabled={viewMode === 'blog'}
           className="w-8 h-8 rounded-xl flex items-center justify-center transition-all"
-          style={{ background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.08)' }}
+          style={{ background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.08)', opacity: viewMode === 'blog' ? 0.45 : 1 }}
           onMouseEnter={e => e.currentTarget.style.background='rgba(248,113,113,0.1)'}
           onMouseLeave={e => e.currentTarget.style.background='rgba(255,255,255,0.04)'}>
           <RotateCcw size={13} color="#64748b"/>

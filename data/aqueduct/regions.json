@@ -1,0 +1,12 @@
+[
+  { "regionId": "us-east-1", "geography": "United States East", "baselineWaterStress": 0.28 },
+  { "regionId": "us-west-2", "geography": "United States Pacific Northwest", "baselineWaterStress": 0.18 },
+  { "regionId": "eu-west-1", "geography": "Ireland", "baselineWaterStress": 0.12 },
+  { "regionId": "eu-central-1", "geography": "Germany", "baselineWaterStress": 0.33 },
+  { "regionId": "ap-southeast-1", "geography": "Singapore", "baselineWaterStress": 0.78 },
+  { "regionId": "ap-northeast-1", "geography": "Japan", "baselineWaterStress": 0.44 },
+  { "regionId": "ca-central-1", "geography": "Canada", "baselineWaterStress": 0.10 },
+  { "regionId": "sa-east-1", "geography": "Brazil Southeast", "baselineWaterStress": 0.48 },
+  { "regionId": "af-south-1", "geography": "South Africa", "baselineWaterStress": 0.72 },
+  { "regionId": "me-south-1", "geography": "Bahrain", "baselineWaterStress": 0.92 }
+]

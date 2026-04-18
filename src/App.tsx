@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react'
-import type { Region, Tier } from './types'
+import type { Tier, ViewMode } from './types'
+import { useBackendHealth } from './hooks/useBackendHealth'
+import { useProviderConfig } from './hooks/useProviderConfig'
 import { useSimulation } from './hooks/useSimulation'
+import { useWaterSignals } from './hooks/useWaterSignals'
+import { mergeRegionsWithWaterSignals } from './lib/water'
+import BlogHub from './components/BlogHub'
 import TopBar from './components/TopBar'
 import LeftPanel from './components/LeftPanel'
 import GlobeCanvas from './components/GlobeCanvas'
@@ -10,47 +15,91 @@ import StatusBar from './components/StatusBar'
 import './styles/globals.css'
 
 export default function App() {
+  const [viewMode, setViewMode] = useState<ViewMode>('control')
   const [tier, setTier] = useState<Tier>('core')
   const { regions, decisions, traces, metrics, paused, toggle, reset } = useSimulation(tier)
-  const [selectedRegion, setSelectedRegion] = useState<Region | null>(null)
+  const { health: backendHealth, error: backendError } = useBackendHealth()
+  const providerConfig = useProviderConfig()
+  const waterSignals = useWaterSignals(regions)
+  const displayRegions = mergeRegionsWithWaterSignals(regions, waterSignals)
+  const [selectedRegionId, setSelectedRegionId] = useState<string | null>(null)
   const [leftCollapsed, setLeftCollapsed] = useState(false)
   const [time, setTime] = useState(Date.now())
 
-  useEffect(() => { const t = setInterval(() => setTime(Date.now()), 1000); return () => clearInterval(t) }, [])
+  useEffect(() => {
+    const t = setInterval(() => setTime(Date.now()), 1000)
+    return () => clearInterval(t)
+  }, [])
 
-  const handleRegionClick = (r: Region) => setSelectedRegion(s => s?.id === r.id ? null : r)
+  const selectedRegion = selectedRegionId
+    ? displayRegions.find((region) => region.id === selectedRegionId) ?? null
+    : null
+
+  const handleRegionClick = (regionId: string) =>
+    setSelectedRegionId((selected) => (selected === regionId ? null : regionId))
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden" style={{ background:'#060d18' }}>
-      <TopBar metrics={metrics} tier={tier} paused={paused} onToggle={toggle} onReset={reset} onTierChange={setTier} time={time}/>
+    <div className="flex flex-col h-screen overflow-hidden" style={{ background: '#060d18' }}>
+      <TopBar
+        metrics={metrics}
+        tier={tier}
+        paused={paused}
+        onToggle={toggle}
+        onReset={reset}
+        onTierChange={setTier}
+        viewMode={viewMode}
+        onViewModeChange={setViewMode}
+        time={time}
+      />
 
-      <div className="flex flex-1 overflow-hidden relative">
-        {/* Left panel */}
-        <LeftPanel regions={regions} tier={tier} onRegionClick={handleRegionClick}
-          collapsed={leftCollapsed} onToggle={() => setLeftCollapsed(p => !p)}/>
+      {viewMode === 'blog' ? (
+        <div className="flex-1 overflow-hidden">
+          <BlogHub />
+        </div>
+      ) : (
+        <div className="flex flex-1 overflow-hidden relative">
+          <LeftPanel
+            regions={displayRegions}
+            tier={tier}
+            onRegionClick={(region) => handleRegionClick(region.id)}
+            backendHealth={backendHealth}
+            backendError={backendError}
+            providerConfig={providerConfig}
+            collapsed={leftCollapsed}
+            onToggle={() => setLeftCollapsed((p) => !p)}
+          />
 
-        {/* Center globe */}
-        <div className="flex-1 relative overflow-hidden">
-          {/* Radial background glow */}
-          <div className="absolute inset-0 pointer-events-none" style={{
-            background:'radial-gradient(ellipse 70% 60% at 50% 50%, rgba(56,189,248,0.035) 0%, transparent 70%)'
-          }}/>
-          <GlobeCanvas regions={regions} onRegionClick={handleRegionClick}/>
-          <RegionDetail region={selectedRegion} onClose={() => setSelectedRegion(null)}/>
+          <div className="flex-1 relative overflow-hidden">
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: 'radial-gradient(ellipse 70% 60% at 50% 50%, rgba(56,189,248,0.035) 0%, transparent 70%)',
+              }}
+            />
+            <GlobeCanvas regions={displayRegions} onRegionClick={(region) => handleRegionClick(region.id)} />
+            <RegionDetail region={selectedRegion} onClose={() => setSelectedRegionId(null)} />
 
-          {/* Center watermark */}
-          <div className="absolute top-4 left-1/2 -translate-x-1/2 pointer-events-none">
-            <div className="text-[9px] font-mono tracking-[0.25em] text-center" style={{color:'rgba(56,189,248,0.2)'}}>
-              FLAT PROJECTION · EQUIRECTANGULAR
+            <div className="absolute top-4 left-1/2 -translate-x-1/2 pointer-events-none">
+              <div className="text-[9px] font-mono tracking-[0.25em] text-center" style={{ color: 'rgba(56,189,248,0.2)' }}>
+                FLAT PROJECTION · EQUIRECTANGULAR
+              </div>
             </div>
           </div>
+
+          <RightPanel
+            regions={displayRegions}
+            selectedRegion={selectedRegion}
+            decisions={decisions}
+            traces={traces}
+            metrics={metrics}
+            tier={tier}
+            backendHealth={backendHealth}
+            backendError={backendError}
+          />
         </div>
+      )}
 
-        {/* Right panel */}
-        <RightPanel decisions={decisions} traces={traces} tier={tier}/>
-      </div>
-
-      <StatusBar metrics={metrics} tier={tier} paused={paused}/>
+      <StatusBar metrics={metrics} tier={tier} paused={paused} backendHealth={backendHealth} />
     </div>
   )
 }

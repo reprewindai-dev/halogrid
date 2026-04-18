@@ -17,9 +17,9 @@ export const REGIONS: Region[] = [
 export const SIGNAL_PROVIDERS = [
   { name:'Electricity Maps', type:'carbon', status:'healthy', mode:'live',    authority:'Grid operator feed', freshness:42  },
   { name:'WattTime',         type:'carbon', status:'healthy', mode:'live',    authority:'Marginal emissions',  freshness:18  },
-  { name:'Tomorrow.io',      type:'carbon', status:'degraded',mode:'cached',  authority:'Weather forecast',    freshness:310 },
-  { name:'Water.org API',    type:'water',  status:'healthy', mode:'live',    authority:'Basin stress index',  freshness:91  },
-  { name:'USGS StreamStats', type:'water',  status:'offline', mode:'offline', authority:'US watershed data',   freshness:999 },
+  { name:'Tomorrow.io',      type:'water',  status:'degraded',mode:'cached',  authority:'Premium weather fallback', freshness:310 },
+  { name:'Open-Meteo',       type:'water',  status:'healthy', mode:'live',    authority:'Public live meteo-water feed', freshness:91  },
+  { name:'Aqueduct',         type:'water',  status:'healthy', mode:'static',  authority:'Baseline water stress dataset', freshness:0 },
 ]
 
 const REASONS: string[] = [
