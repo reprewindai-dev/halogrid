@@ -1,0 +1,28 @@
+
+> halogrid@0.1.0 dev
+> vite --host 127.0.0.1 --port 4173
+
+
+  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m635[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://127.0.0.1:[1m4173[22m/[39m
+[2m[32m  ➜[39m[22m[2m  press [22m[1mh + enter[22m[2m to show help[22m
+[2m10:52:26 p.m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/styles/globals.css[22m
+[2m10:52:26 p.m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/LeftPanel.tsx, /src/styles/globals.css[22m
+[2m10:52:26 p.m.[22m [36m[1m[vite][22m[39m [32mvite.config.ts changed, restarting server...[39m
+[2m10:52:26 p.m.[22m [36m[1m[vite][22m[39m [32m.env.local changed, restarting server...[39m
+Re-optimizing dependencies because vite config has changed
+[2m10:52:26 p.m.[22m [36m[1m[vite][22m[39m server restarted.
+[2m11:31:04 p.m.[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/types/index.ts[22m
+[2m11:33:14 p.m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/TopBar.tsx, /src/styles/globals.css[22m
+[2m11:34:09 p.m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/styles/globals.css[22m
+[2m11:34:53 p.m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/BlogHub.tsx, /src/styles/globals.css[22m
+[2m8:00:58 a.m.[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/types/index.ts[22m
+[2m8:02:14 a.m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/styles/globals.css[22m
+[2m8:02:30 a.m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/styles/globals.css[22m
+[2m8:02:55 a.m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/LeftPanel.tsx, /src/styles/globals.css[22m
+[2m8:03:06 a.m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/styles/globals.css, /src/components/LeftPanel.tsx[22m
+[2m8:04:35 a.m.[22m [36m[1m[vite][22m[39m [32mvite.config.ts changed, restarting server...[39m
+[2m8:04:36 a.m.[22m [36m[1m[vite][22m[39m server restarted.
+[2m8:06:12 a.m.[22m [36m[1m[vite][22m[39m [32m.env.local changed, restarting server...[39m
+[2m8:06:13 a.m.[22m [36m[1m[vite][22m[39m server restarted.
