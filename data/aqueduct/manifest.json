@@ -1,0 +1,7 @@
+{
+  "version": "aqueduct-4.0-halogrid-2026.04",
+  "dataset": "Aqueduct 4.0 baseline water stress",
+  "updatedAt": "2026-04-18T00:00:00Z",
+  "source": "WRI Aqueduct 4.0 baseline water stress adapted to HaloGrid region geographies",
+  "regionCount": 10
+}

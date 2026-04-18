@@ -1,0 +1,199 @@
+[
+  {
+    "id": "queue-2026-04-24-simulating-router",
+    "slug": "simulating-the-co2-router-control-loop",
+    "title": "Simulating the CO2 Router Control Loop",
+    "excerpt": "A control-plane simulation should not be cosmetic. It should reveal how signal shifts change admissibility, routing, and proof state.",
+    "scheduledFor": "2026-04-24T09:00:00-04:00",
+    "category": "Operations",
+    "tags": [
+      "simulation",
+      "control-loop",
+      "runtime"
+    ],
+    "hero": {
+      "kind": "video",
+      "src": "/blog-media/simulating-the-co2-router.mp4",
+      "poster": "/blog-media/co2-router-deterministic-execution-control-plane.png",
+      "label": "Simulating the CO2 Router video"
+    },
+    "paragraphs": [
+      "A useful simulation shows more than motion on a screen. It reveals how a shift in carbon, water stress, or latency changes the decision frame.",
+      "That is why the best control-plane simulation is tied to actual decision vocabulary: run, reroute, delay, throttle, and deny.",
+      "When operators can watch those state transitions and inspect the proof artifacts attached to them, the system starts to feel operationally trustworthy."
+    ]
+  },
+  {
+    "id": "queue-2026-04-27-why-modern-infra-fails",
+    "slug": "why-co2-router-fails-modern-infrastructure",
+    "title": "Why Carbon-Only Router Concepts Fail Modern Infrastructure",
+    "excerpt": "The real problem is not routing logic in isolation. It is the absence of governance, water, latency, cost, and proof in the execution frame.",
+    "scheduledFor": "2026-04-27T09:00:00-04:00",
+    "category": "Comparison",
+    "tags": [
+      "comparison",
+      "legacy-systems",
+      "carbon-only"
+    ],
+    "hero": {
+      "kind": "audio",
+      "src": "/blog-media/why-co2-router-fails-modern-infrastructure.m4a",
+      "poster": "/blog-media/co2-router-deterministic-execution-control-plane.png",
+      "label": "Why CO2 Router fails modern infrastructure audio"
+    },
+    "paragraphs": [
+      "Legacy infrastructure tools tend to isolate one objective and leave the rest to human interpretation.",
+      "Modern execution environments cannot afford that separation because carbon posture, water constraints, cost exposure, and latency tolerance all shape the same operational decision.",
+      "Without a control plane that evaluates them together, environmental infrastructure remains fragmented and weak."
+    ]
+  },
+  {
+    "id": "queue-2026-04-30-explainer-vlog",
+    "slug": "co2-router-explainer-vlog",
+    "title": "CO2 Router Explainer: The Fastest Way to Understand the Model",
+    "excerpt": "A short video walkthrough of the control-plane model, the binding action set, and why proof attachment changes how infrastructure decisions are trusted.",
+    "scheduledFor": "2026-04-30T09:00:00-04:00",
+    "category": "Media",
+    "tags": [
+      "video",
+      "explainer",
+      "proof-chain"
+    ],
+    "hero": {
+      "kind": "video",
+      "src": "/blog-media/co2-router-explainer.mp4",
+      "poster": "/blog-media/co2-router-future-deterministic-control.png",
+      "label": "CO2 Router explainer video"
+    },
+    "paragraphs": [
+      "Video explainers help compress a dense systems argument into something teams can share quickly.",
+      "The important thing is not just visual polish. It is whether the explainer keeps the core idea intact: CO2 Router is a deterministic control plane with explicit execution authority.",
+      "That framing prevents the product from being mistaken for just another sustainability dashboard."
+    ]
+  },
+  {
+    "id": "queue-2026-05-03-proof-infrastructure",
+    "slug": "verifiable-proof-infrastructure-for-environmental-compute",
+    "title": "Verifiable Proof Infrastructure for Environmental Compute",
+    "excerpt": "Proof should not be an afterthought. In CO2 Router it is attached to the decision frame so actions stay auditable after execution.",
+    "scheduledFor": "2026-05-03T09:00:00-04:00",
+    "category": "Architecture",
+    "tags": [
+      "proof",
+      "auditability",
+      "replayability"
+    ],
+    "hero": {
+      "kind": "image",
+      "src": "/blog-media/co2-router-future-deterministic-control.png",
+      "label": "Proof infrastructure visual"
+    },
+    "gallery": [
+      {
+        "kind": "pdf",
+        "src": "/blog-media/co2-router-control-plane.pdf",
+        "label": "Proof infrastructure deck"
+      }
+    ],
+    "paragraphs": [
+      "Environmental control loses credibility if the system cannot reconstruct why an action was taken.",
+      "CO2 Router fixes that by attaching trace data, replay context, and provenance to the decision frame itself.",
+      "Replayability turns the platform from a black box into a defensible operational system."
+    ]
+  },
+  {
+    "id": "queue-2026-05-06-five-actions",
+    "slug": "the-five-binding-actions",
+    "title": "The Five Binding Actions That Matter",
+    "excerpt": "CO2 Router stays legible because its decision vocabulary is intentionally narrow: run, reroute, delay, throttle, and deny.",
+    "scheduledFor": "2026-05-06T09:00:00-04:00",
+    "category": "Architecture",
+    "tags": [
+      "binding-actions",
+      "run",
+      "reroute",
+      "deny"
+    ],
+    "hero": {
+      "kind": "image",
+      "src": "/blog-media/co2-router-environmental-execution-control-plane.png",
+      "label": "Five binding execution actions"
+    },
+    "paragraphs": [
+      "Strong infrastructure systems do not need an infinite list of outcomes. They need a bounded action model that operators can audit and trust.",
+      "The five binding actions in CO2 Router are enough to cover admissibility, relocation, delay tolerance, performance reduction, and outright rejection.",
+      "That narrow vocabulary is part of what makes the system deterministic rather than vague."
+    ]
+  },
+  {
+    "id": "queue-2026-05-09-water-and-cost",
+    "slug": "carbon-water-latency-cost-in-one-frame",
+    "title": "Carbon, Water, Latency, and Cost in One Frame",
+    "excerpt": "The real control problem is multi-objective. Any system that isolates carbon and ignores the rest will underperform at runtime.",
+    "scheduledFor": "2026-05-09T09:00:00-04:00",
+    "category": "Governance",
+    "tags": [
+      "carbon",
+      "water",
+      "latency",
+      "cost"
+    ],
+    "hero": {
+      "kind": "image",
+      "src": "/blog-media/co2-router-environmental-execution-control-plane.png",
+      "label": "Multi-objective co-optimization graphic"
+    },
+    "paragraphs": [
+      "Carbon alone cannot explain whether a workload should execute in a region. Water stress, latency tolerance, and cost posture all change the answer.",
+      "CO2 Router brings them into a single decision frame so the control layer can govern execution instead of exporting tradeoffs back to humans.",
+      "That is what makes it operational rather than aspirational."
+    ]
+  },
+  {
+    "id": "queue-2026-05-12-auditable-control",
+    "slug": "deterministic-control-vs-advisory-systems",
+    "title": "Deterministic Control vs Advisory Systems",
+    "excerpt": "The difference is not branding. Advisory systems inform people. Deterministic systems decide and preserve evidence.",
+    "scheduledFor": "2026-05-12T09:00:00-04:00",
+    "category": "Comparison",
+    "tags": [
+      "advisory",
+      "deterministic",
+      "control-plane"
+    ],
+    "hero": {
+      "kind": "image",
+      "src": "/blog-media/co2-router-deterministic-execution-control-plane.png",
+      "label": "Deterministic control vs advisory systems visual"
+    },
+    "paragraphs": [
+      "It is easy to underestimate the gap between recommendation and enforcement. In practice, that gap is where most sustainability software becomes optional.",
+      "CO2 Router closes it by turning signal evaluation and policy logic into a binding action before execution begins.",
+      "That makes the system more operationally serious and much easier to defend under audit."
+    ]
+  },
+  {
+    "id": "queue-2026-05-15-vlog-governance",
+    "slug": "governance-before-workload-admission",
+    "title": "Governance Before Workload Admission",
+    "excerpt": "A short media post on why governance must act before compute spins up, not after telemetry has already drifted.",
+    "scheduledFor": "2026-05-15T09:00:00-04:00",
+    "category": "Media",
+    "tags": [
+      "governance",
+      "admission",
+      "video"
+    ],
+    "hero": {
+      "kind": "video",
+      "src": "/blog-media/co2-router-explainer.mp4",
+      "poster": "/blog-media/co2-router-environmental-execution-control-plane.png",
+      "label": "Governance before admission video"
+    },
+    "paragraphs": [
+      "Admission logic is the line between policy theater and operational control.",
+      "If governance only activates after workloads are already running, environmental intent loses most of its force.",
+      "CO2 Router matters because it moves the decision forward to the point where the platform still has authority."
+    ]
+  }
+]
