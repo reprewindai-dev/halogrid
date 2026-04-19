@@ -10,3 +10,5 @@ dist/
 vite-dev.log
 vite-dev.err.log
 .vercel
+.tools/
+.npm-cache/
