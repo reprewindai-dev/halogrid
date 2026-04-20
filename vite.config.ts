@@ -336,7 +336,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
   return {
-    base: './',
+    base: '/',
     plugins: [react(), providerProxyPlugin(env)],
     resolve: { alias: { '@': path.resolve(__dirname, 'src') } },
     server: { port: 5173 },
