@@ -336,6 +336,8 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
   return {
+    // Vercel serves this app from the domain root, so production assets must
+    // resolve from `/` rather than a relative filesystem-style base.
     base: '/',
     plugins: [react(), providerProxyPlugin(env)],
     resolve: { alias: { '@': path.resolve(__dirname, 'src') } },

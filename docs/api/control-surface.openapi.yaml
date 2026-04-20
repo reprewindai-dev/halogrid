@@ -1,0 +1,222 @@
+openapi: 3.1.0
+info:
+  title: CO2 Router Control Surface API
+  version: 1.0.0
+  description: |
+    Public dashboard and control-surface endpoints used by the CO2 Router operator console.
+servers:
+  - url: https://co2router.com
+    description: Production dashboard
+  - url: http://localhost:5173
+    description: Local Vite development server
+tags:
+  - name: Health
+  - name: Dashboard
+  - name: Control Surface
+  - name: Replay
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    GenericObject:
+      type: object
+      additionalProperties: true
+    ErrorResponse:
+      type: object
+      additionalProperties: true
+      properties:
+        status:
+          type: string
+        error:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+paths:
+  /api/health:
+    get:
+      tags: [Health]
+      operationId: getDashboardHealth
+      summary: Get dashboard health
+      description: Returns the dashboard runtime health check.
+      responses:
+        200:
+          description: Dashboard health response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+        500:
+          description: Error response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/ErrorResponse
+  /api/providers/health:
+    get:
+      tags: [Health]
+      operationId: getProviderHealth
+      summary: Get provider health
+      description: Returns provider readiness and fallback state for the public dashboard.
+      responses:
+        200:
+          description: Provider health response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+        503:
+          description: Provider health degraded
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/ErrorResponse
+  /api/dashboard/kpis:
+    get:
+      tags: [Dashboard]
+      operationId: getDashboardKpis
+      summary: Get dashboard KPIs
+      description: Returns the high-level operating metrics shown in the control surface.
+      responses:
+        200:
+          description: KPI response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+  /api/dashboard/regions:
+    get:
+      tags: [Dashboard]
+      operationId: getDashboardRegions
+      summary: Get dashboard regions
+      description: Returns the region inventory presented in the dashboard.
+      responses:
+        200:
+          description: Region response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+  /api/control-surface/overview:
+    get:
+      tags: [Control Surface]
+      operationId: getControlSurfaceOverview
+      summary: Get control-surface overview
+      description: Returns the live control-surface summary used by the main operator view.
+      responses:
+        200:
+          description: Overview response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+  /api/control-surface/live-system:
+    get:
+      tags: [Control Surface]
+      operationId: getLiveSystemState
+      summary: Get live system state
+      description: Returns the live system snapshot for the control surface.
+      responses:
+        200:
+          description: Live system response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+  /api/control-surface/metrics:
+    get:
+      tags: [Control Surface]
+      operationId: getControlSurfaceMetrics
+      summary: Get control-surface metrics
+      description: Returns metric aggregates for the operator console.
+      responses:
+        200:
+          description: Metrics response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+  /api/control-surface/simulate:
+    post:
+      tags: [Control Surface]
+      operationId: simulateControlSurfaceDecision
+      summary: Simulate a routing decision
+      description: Runs a control-surface simulation for a proposed decision payload.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: #/components/schemas/GenericObject
+      responses:
+        200:
+          description: Simulation response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/ErrorResponse
+  /api/control-surface/trace/{decisionFrameId}:
+    get:
+      tags: [Replay]
+      operationId: getControlSurfaceTrace
+      summary: Get a control-surface trace
+      description: Returns the replay trace for a specific decision frame.
+      parameters:
+        - name: decisionFrameId
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Trace response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+        404:
+          description: Trace not found
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/ErrorResponse
+  /api/control-surface/replay/{decisionFrameId}:
+    get:
+      tags: [Replay]
+      operationId: getControlSurfaceReplay
+      summary: Get a control-surface replay
+      description: Returns the deterministic replay result for a decision frame.
+      parameters:
+        - name: decisionFrameId
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Replay response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+        404:
+          description: Replay not found
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/ErrorResponse

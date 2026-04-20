@@ -1,0 +1,265 @@
+openapi: 3.1.0
+info:
+  title: CO2 Router Integrations API
+  version: 1.0.0
+  description: |
+    Integration endpoints for webhooks, outbox processing, and DEKES operational surfaces.
+servers:
+  - url: https://ecobe-engineclaude-co2router.onrender.com
+    description: Production engine service
+  - url: http://localhost:8080
+    description: Local engine runtime
+tags:
+  - name: Webhooks
+  - name: Outbox
+  - name: DEKES
+components:
+  securitySchemes:
+    internalHeader:
+      type: apiKey
+      in: header
+      name: x-ecobe-internal-key
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: x-api-key
+  schemas:
+    GenericObject:
+      type: object
+      additionalProperties: true
+    ErrorResponse:
+      type: object
+      additionalProperties: true
+      properties:
+        status:
+          type: string
+        error:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+paths:
+  /api/v1/integrations/dekes/summary:
+    get:
+      tags: [DEKES]
+      operationId: getDekesSummary
+      summary: Get DEKES summary
+      description: Returns the high-level DEKES integration summary.
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: DEKES summary response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+  /api/v1/integrations/dekes/events:
+    get:
+      tags: [DEKES]
+      operationId: getDekesEvents
+      summary: Get DEKES events
+      description: Returns DEKES event history.
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Events response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+  /api/v1/integrations/dekes/metrics:
+    get:
+      tags: [DEKES]
+      operationId: getDekesMetrics
+      summary: Get DEKES metrics
+      description: Returns DEKES operational metrics.
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Metrics response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+  /api/v1/integrations/dekes/handoffs:
+    get:
+      tags: [DEKES]
+      operationId: getDekesHandoffs
+      summary: Get DEKES handoffs
+      description: Returns handoff records used by the DEKES workflow.
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Handoffs response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+  /api/v1/integrations/dekes/signals:
+    get:
+      tags: [DEKES]
+      operationId: getDekesSignals
+      summary: Get DEKES signals
+      description: Returns live DEKES signal feeds.
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Signals response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+  /api/v1/integrations/webhooks:
+    get:
+      tags: [Webhooks]
+      operationId: listWebhooks
+      summary: List webhooks
+      description: Returns configured outbound webhooks.
+      security:
+        - internalHeader: []
+      responses:
+        200:
+          description: Webhook list response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+    post:
+      tags: [Webhooks]
+      operationId: createWebhook
+      summary: Create webhook
+      description: Creates a new outbound webhook configuration.
+      security:
+        - internalHeader: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: #/components/schemas/GenericObject
+      responses:
+        200:
+          description: Webhook created response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+  /api/v1/integrations/webhooks/{id}:
+    patch:
+      tags: [Webhooks]
+      operationId: updateWebhook
+      summary: Update webhook
+      description: Updates a webhook by id.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - internalHeader: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: #/components/schemas/GenericObject
+      responses:
+        200:
+          description: Webhook updated response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+  /api/v1/integrations/webhooks/{id}/test:
+    post:
+      tags: [Webhooks]
+      operationId: testWebhook
+      summary: Test webhook
+      description: Sends a test payload to a configured webhook.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - internalHeader: []
+      responses:
+        200:
+          description: Webhook test response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+  /api/v1/integrations/events/outbox:
+    get:
+      tags: [Outbox]
+      operationId: listOutboxEvents
+      summary: List outbox events
+      description: Returns the pending and processed event outbox records.
+      security:
+        - internalHeader: []
+      responses:
+        200:
+          description: Outbox response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+  /api/v1/integrations/events/outbox/metrics:
+    get:
+      tags: [Outbox]
+      operationId: getOutboxMetrics
+      summary: Get outbox metrics
+      description: Returns operational metrics for the event outbox.
+      security:
+        - internalHeader: []
+      responses:
+        200:
+          description: Outbox metrics response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+  /api/v1/integrations/events/outbox/{id}/requeue:
+    post:
+      tags: [Outbox]
+      operationId: requeueOutboxEvent
+      summary: Requeue an outbox event
+      description: Requeues a failed or delayed outbox record.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - internalHeader: []
+      responses:
+        200:
+          description: Requeue response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+  /api/v1/integrations/events/dispatch:
+    post:
+      tags: [Outbox]
+      operationId: dispatchIntegrationEvents
+      summary: Dispatch integration events
+      description: Dispatches queued integration events through the delivery pipeline.
+      security:
+        - internalHeader: []
+      responses:
+        200:
+          description: Dispatch response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject

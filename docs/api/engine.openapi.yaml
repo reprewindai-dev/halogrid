@@ -1,0 +1,364 @@
+openapi: 3.1.0
+info:
+  title: CO2 Router Engine API
+  version: 1.0.0
+  description: |
+    Production control-plane endpoints exposed by the ECOBE engine.
+servers:
+  - url: https://ecobe-engineclaude-co2router.onrender.com
+    description: Production Render service
+  - url: http://localhost:8080
+    description: Local engine runtime
+  - url: https://ecobe-engineclaude-production.up.railway.app
+    description: Legacy Railway deployment
+tags:
+  - name: Health
+  - name: System
+  - name: CI
+  - name: Routing
+  - name: Water
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    internalHeader:
+      type: apiKey
+      in: header
+      name: x-ecobe-internal-key
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: x-api-key
+  schemas:
+    GenericObject:
+      type: object
+      additionalProperties: true
+    AuthorizationRequest:
+      type: object
+      required:
+        - requestId
+        - idempotencyKey
+        - timestamp
+        - preferredRegions
+        - jobType
+        - criticality
+        - waterPolicyProfile
+        - allowDelay
+        - criticalPath
+        - signalPolicy
+        - carbonWeight
+        - waterWeight
+        - latencyWeight
+        - costWeight
+      properties:
+        requestId:
+          type: string
+        idempotencyKey:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        preferredRegions:
+          type: array
+          items:
+            type: string
+        jobType:
+          type: string
+        criticality:
+          type: string
+        waterPolicyProfile:
+          type: string
+        allowDelay:
+          type: boolean
+        criticalPath:
+          type: boolean
+        signalPolicy:
+          type: string
+        carbonWeight:
+          type: number
+        waterWeight:
+          type: number
+        latencyWeight:
+          type: number
+        costWeight:
+          type: number
+    ErrorResponse:
+      type: object
+      additionalProperties: true
+      properties:
+        status:
+          type: string
+        error:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+paths:
+  /health:
+    get:
+      tags: [Health]
+      operationId: getEngineHealth
+      summary: Get engine health
+      description: Returns the live engine health check.
+      responses:
+        200:
+          description: Engine health response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+        503:
+          description: Engine degraded
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/ErrorResponse
+  /internal/v1/health:
+    get:
+      tags: [Health]
+      operationId: getEngineInternalHealth
+      summary: Get internal engine health
+      description: Returns the internal health probe used by the control plane.
+      responses:
+        200:
+          description: Internal health response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+  /api/v1/system/status:
+    get:
+      tags: [System]
+      operationId: getSystemStatus
+      summary: Get system status
+      description: Returns runtime health, worker status, and cache statistics.
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: System status response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+  /api/v1/system/cache:
+    get:
+      tags: [System]
+      operationId: getSystemCache
+      summary: Get system cache
+      description: Returns cache coverage and health for the routing warm loop.
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Cache response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+  /api/v1/system/workers:
+    get:
+      tags: [System]
+      operationId: getSystemWorkers
+      summary: Get worker status
+      description: Returns the live background worker registry.
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Worker status response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+  /api/v1/ci/health:
+    get:
+      tags: [CI]
+      operationId: getCiHealth
+      summary: Get CI health
+      description: Returns assurance and provenance readiness for the control plane.
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: CI health response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+  /api/v1/ci/slo:
+    get:
+      tags: [CI]
+      operationId: getCiSlo
+      summary: Get CI SLO metrics
+      description: Returns p95 latency and related SLO data.
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: SLO response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+  /api/v1/ci/telemetry:
+    get:
+      tags: [CI]
+      operationId: getCiTelemetry
+      summary: Get CI telemetry
+      description: Returns telemetry counters and gauges.
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Telemetry response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+  /api/v1/ci/regions:
+    get:
+      tags: [CI]
+      operationId: getCiRegions
+      summary: Get CI regions
+      description: Returns supported routing regions and current metadata.
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Regions response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+  /api/v1/ci/authorize:
+    post:
+      tags: [CI]
+      operationId: authorizeCiDecision
+      summary: Authorize a carbon decision
+      description: |
+        Evaluates a routing request and returns the authoritative decision frame.
+        This endpoint is signed and can also be called with the internal API key during controlled flows.
+      security:
+        - bearerAuth: []
+        - apiKeyHeader: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: #/components/schemas/AuthorizationRequest
+      responses:
+        200:
+          description: Authorization response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+        401:
+          description: Signature or auth failure
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/ErrorResponse
+  /api/v1/ci/decisions:
+    get:
+      tags: [Routing]
+      operationId: listCiDecisions
+      summary: List CI decisions
+      description: Returns recent decision frames for review and audit.
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Decision list response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+  /api/v1/ci/decisions/{decisionId}/trace:
+    get:
+      tags: [Routing]
+      operationId: getCiDecisionTrace
+      summary: Get a CI decision trace
+      description: Returns the decision trace for a specific frame.
+      parameters:
+        - name: decisionId
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Trace response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+        404:
+          description: Decision not found
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/ErrorResponse
+  /api/v1/ci/decisions/{decisionId}/replay:
+    get:
+      tags: [Routing]
+      operationId: getCiDecisionReplay
+      summary: Get a CI decision replay
+      description: Returns the deterministic replay result for a specific decision frame.
+      parameters:
+        - name: decisionId
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Replay response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+        404:
+          description: Decision not found
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/ErrorResponse
+  /api/v1/water/provenance:
+    get:
+      tags: [Water]
+      operationId: getWaterProvenance
+      summary: Get water provenance
+      description: Returns the current water dataset provenance summary.
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Water provenance response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject
+  /api/v1/water/provenance/verify:
+    post:
+      tags: [Water]
+      operationId: verifyWaterProvenance
+      summary: Verify water provenance
+      description: Recomputes provenance checks for water datasets.
+      security:
+        - internalHeader: []
+      responses:
+        200:
+          description: Verification response
+          content:
+            application/json:
+              schema:
+                $ref: #/components/schemas/GenericObject

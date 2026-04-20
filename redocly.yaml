@@ -1,0 +1,10 @@
+apis:
+  co2-router-control-surface@v1:
+    root: ./docs/api/control-surface.openapi.yaml
+  co2-router-engine@v1:
+    root: ./docs/api/engine.openapi.yaml
+  co2-router-integrations@v1:
+    root: ./docs/api/integrations.openapi.yaml
+
+extends:
+  - recommended
