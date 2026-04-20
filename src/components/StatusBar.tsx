@@ -25,11 +25,11 @@ export default function StatusBar({
               boxShadow: paused ? '0 0 5px #fbbf24' : '0 0 5px #4ade80',
             }}
           />
-          {paused ? 'SIM PAUSED' : 'SIM RUNNING'}
+          {paused ? 'LIVE POLL PAUSED' : 'LIVE POLL ACTIVE'}
         </span>
         <span className="tracking-widest">TIER: {tier.toUpperCase()}</span>
         <span className="tracking-widest">REGIONS: {metrics.activeRegions}/{10}</span>
-        <span className="tracking-widest">BROKER HEALTH: {backendHealth ? 'ONLINE' : 'UNAVAILABLE'}</span>
+        <span className="tracking-widest">BROKER HEALTH: {backendHealth ? 'ONLINE' : 'DEGRADED'}</span>
       </div>
       <div className="flex items-center gap-4 font-mono text-muted">
         {backendHealth && <span>DB {backendHealth.dependencies.database ? 'UP' : 'DOWN'} / REDIS {backendHealth.dependencies.redis ? 'UP' : 'DOWN'}</span>}
