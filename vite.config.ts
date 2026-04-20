@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import path from 'path'
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
-import { REGIONS } from './src/lib/simulation'
+import { REGION_CATALOG } from './src/lib/region-catalog'
 import {
   buildWaterSignal,
   normalizeOpenMeteoWaterMetrics,
@@ -48,7 +48,7 @@ function providerProxyPlugin(env: Record<string, string | undefined>) {
   const wattTimePassword = env.WATTTIME_PASSWORD
   const aqueductArtifacts = loadAqueductArtifacts(process.cwd())
   const aqueductByRegion = new Map(aqueductArtifacts.regions.map((region) => [region.regionId, region]))
-  const regionsById = new Map(REGIONS.map((region) => [region.id, region]))
+  const regionsById = new Map(REGION_CATALOG.map((region) => [region.id, region]))
   let wattTimeToken: string | null = null
   let wattTimeTokenExpiresAt = 0
 
@@ -94,7 +94,7 @@ function providerProxyPlugin(env: Record<string, string | undefined>) {
   function selectRegions(requestUrl: URL) {
     const regionIds = requestUrl.searchParams.get('regionIds')
     if (!regionIds) {
-      return REGIONS
+      return REGION_CATALOG
     }
 
     return regionIds
