@@ -12,3 +12,13 @@ vite-dev.err.log
 .vercel
 .tools/
 .npm-cache/
+.gh-config/
+co2router-site/
+co2router-site-extract/
+co2router-site-repo/
+ecobe-mvp/
+ecobe-mvp-extract/
+ecobe-mvp-repo/
+ecobe-engineclaude/
+ecobe-engineclaude-clean/
+*.zip
