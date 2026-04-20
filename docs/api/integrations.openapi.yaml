@@ -15,6 +15,9 @@ tags:
   - name: DEKES
 components:
   securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
     internalHeader:
       type: apiKey
       in: header

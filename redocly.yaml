@@ -8,3 +8,10 @@ apis:
 
 extends:
   - recommended
+
+rules:
+  info-license: off
+  no-server-example.com: off
+  no-unused-components: off
+  operation-4xx-response: off
+  tag-description: off

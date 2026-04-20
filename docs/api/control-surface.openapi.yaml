@@ -14,6 +14,8 @@ tags:
   - name: Dashboard
   - name: Control Surface
   - name: Replay
+security:
+  - bearerAuth: []
 components:
   securitySchemes:
     bearerAuth:
@@ -38,6 +40,7 @@ components:
 paths:
   /api/health:
     get:
+      security: []
       tags: [Health]
       operationId: getDashboardHealth
       summary: Get dashboard health
@@ -57,6 +60,7 @@ paths:
                 $ref: #/components/schemas/ErrorResponse
   /api/providers/health:
     get:
+      security: []
       tags: [Health]
       operationId: getProviderHealth
       summary: Get provider health

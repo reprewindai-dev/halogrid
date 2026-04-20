@@ -17,6 +17,8 @@ tags:
   - name: CI
   - name: Routing
   - name: Water
+security:
+  - bearerAuth: []
 components:
   securitySchemes:
     bearerAuth:
@@ -98,6 +100,7 @@ components:
 paths:
   /health:
     get:
+      security: []
       tags: [Health]
       operationId: getEngineHealth
       summary: Get engine health
@@ -117,6 +120,8 @@ paths:
                 $ref: #/components/schemas/ErrorResponse
   /internal/v1/health:
     get:
+      security:
+        - internalHeader: []
       tags: [Health]
       operationId: getEngineInternalHealth
       summary: Get internal engine health
