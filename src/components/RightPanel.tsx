@@ -41,7 +41,7 @@ export default function RightPanel({ regions, selectedRegion, decisions, traces,
       <div className="flex-1 overflow-hidden px-3 py-3">
         <PanelHeader
           title="DECISION STREAM"
-          subtitle={tier === 'freeview' ? 'Simulation-backed regional actions' : 'Simulation-backed routing actions with live backend health'}
+          subtitle={tier === 'freeview' ? 'Live regional actions' : 'Live routing actions with broker health context'}
         />
 
         <div className="scrollbar-thin h-[58%] overflow-y-auto pr-1">
@@ -49,7 +49,7 @@ export default function RightPanel({ regions, selectedRegion, decisions, traces,
             visibleDecisions.map((decision, index) => <DecisionCard key={decision.id} decision={decision} tier={tier} index={index} />)
           ) : (
             <div className="rounded-2xl px-4 py-6 text-center text-[10px] font-mono tracking-[0.18em] text-slate-500" style={{ background: 'rgba(255,255,255,0.02)' }}>
-              No simulated routing actions are currently queued
+              No live routing actions are currently queued
             </div>
           )}
         </div>
@@ -97,7 +97,7 @@ export default function RightPanel({ regions, selectedRegion, decisions, traces,
 
           <PanelHeader
             title={tier === 'elite' ? 'TRACE RAIL' : 'CONTROL PLANE'}
-            subtitle={tier === 'elite' ? 'Simulation trace samples' : tier === 'core' ? 'Deployed backend posture and simulation truth' : 'Upgrade to Core for deeper simulation telemetry'}
+            subtitle={tier === 'elite' ? 'Live trace samples' : tier === 'core' ? 'Deployed backend posture' : 'Upgrade to Core for deeper telemetry'}
           />
 
           {tier === 'elite' ? (
@@ -122,17 +122,17 @@ export default function RightPanel({ regions, selectedRegion, decisions, traces,
               {[
                 {
                   label: 'Mode',
-                  value: backendHealth ? 'Broker health live - decisions simulated' : 'Broker health unavailable - decisions simulated',
+                  value: backendHealth ? 'Broker health live - decision feed active' : 'Broker health degraded - decision feed stale',
                   color: '#38bdf8',
                 },
                 {
                   label: 'Confidence',
-                  value: backendHealth ? `${onlineProviders}/${totalProviders} broker providers online` : 'No deployed decision or provider feed available',
+                  value: backendHealth ? `${onlineProviders}/${totalProviders} broker providers online` : 'No live provider health snapshot currently available',
                   color: '#a78bfa',
                 },
                 {
                   label: 'Audit',
-                  value: backendHealth ? `${backendHealth.checks.waterArtifacts?.regionCount ?? 0} water regions loaded` : 'No deployed trace or water feed exposed to this frontend',
+                  value: backendHealth ? `${backendHealth.checks.waterArtifacts?.regionCount ?? 0} water regions loaded` : 'No live trace or water feed currently available',
                   color: '#fbbf24',
                 },
               ].map((item) => (
