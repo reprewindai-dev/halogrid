@@ -220,7 +220,7 @@ export default function LeftPanel({
                 )}
                 {backendError && !backendHealth && (
                   <div className="mb-2 rounded-xl px-2 py-2 text-[9px] font-mono text-amber-300" style={{ background: 'rgba(251,191,36,0.08)' }}>
-                    Broker health is unavailable. This panel only reports deployed MCP providers and does not fall back to local provider claims.
+                    Broker health is degraded. This panel shows the last successful MCP provider snapshot and does not fabricate provider claims.
                   </div>
                 )}
                 {liveProviders.length > 0 ? (
