@@ -56,3 +56,31 @@ export interface ConsoleRuntime {
   loading: boolean
   refresh: () => void
 }
+
+export interface EcobeMvpPolicy {
+  id: string
+  name: string
+  threshold: number | null
+  delay_seconds: number | null
+  active: boolean
+  created_at: string | null
+  raw: Record<string, unknown>
+}
+
+export interface EcobeMvpProofRecord {
+  id: string
+  proof_id: string
+  job_id: string
+  action: string
+  carbon_value: string | number | null
+  policy: string
+  timestamp: string | null
+  delay_seconds: number | null
+  raw: Record<string, unknown>
+}
+
+export interface CreateEcobeMvpPolicyInput {
+  name: string
+  threshold: number
+  delay_seconds: number
+}

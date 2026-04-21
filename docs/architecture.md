@@ -2,9 +2,25 @@
 
 ## Scope
 
-HaloGrid is the console frontend only.
+HaloGrid is the control/view layer only.
 
 It is pinned to `ecobe-mvp` and must not call any backend bypass surface.
+
+## Architecture Contract
+
+- HaloGrid communicates exclusively with `ecobe-mvp`.
+- HaloGrid never calls `ecobe-engine-claude` or any other internal service directly.
+- HaloGrid does not store policy logic locally.
+- `ecobe-mvp` is the only approved frontend-facing backend surface.
+- The UI is limited to dashboard, policy management, and proof/log viewing.
+
+## Frontend API Expectations
+
+- `GET /policies`
+- `POST /policies`
+- `GET /proof-records` as the canonical proof/history endpoint if available
+
+Proof-like decision history powers the Dashboard and Logs views.
 
 ## Data Flow
 
