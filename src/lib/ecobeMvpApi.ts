@@ -1,5 +1,5 @@
 /**
- * Architecture contract: HaloGrid communicates exclusively with ecobe-mvp.
+ * Architecture contract: CO2 Grid communicates exclusively with the approved backend.
  * Direct calls to ecobe-engineclaude or any internal engine service are not permitted.
  */
 
@@ -57,12 +57,12 @@ async function requestJson<T>(path: string, init: RequestInit = {}): Promise<T |
     })
 
     if (response.status === 401 || response.status === 403) {
-      throw new EcobeMvpError('ecobe-mvp rejected the request', response.status, 'credentials')
+      throw new EcobeMvpError('approved backend rejected the request', response.status, 'credentials')
     }
 
     if (!response.ok) {
       const reason = response.status >= 500 ? 'degraded' : 'missing_infra'
-      throw new EcobeMvpError(`ecobe-mvp returned ${response.status}`, response.status, reason)
+      throw new EcobeMvpError(`approved backend returned ${response.status}`, response.status, reason)
     }
 
     if (response.status === 204) {
@@ -77,7 +77,7 @@ async function requestJson<T>(path: string, init: RequestInit = {}): Promise<T |
     try {
       return JSON.parse(raw) as T
     } catch {
-      throw new EcobeMvpError('ecobe-mvp returned invalid JSON', response.status, 'parse')
+      throw new EcobeMvpError('approved backend returned invalid JSON', response.status, 'parse')
     }
   } catch (error) {
     if (error instanceof EcobeMvpError) {
@@ -85,10 +85,10 @@ async function requestJson<T>(path: string, init: RequestInit = {}): Promise<T |
     }
 
     if (error instanceof DOMException && error.name === 'AbortError') {
-      throw new EcobeMvpError('ecobe-mvp request timed out', null, 'network')
+      throw new EcobeMvpError('approved backend request timed out', null, 'network')
     }
 
-    throw new EcobeMvpError('ecobe-mvp request failed', null, 'network')
+    throw new EcobeMvpError('approved backend request failed', null, 'network')
   } finally {
     window.clearTimeout(timeout)
   }

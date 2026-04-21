@@ -98,7 +98,7 @@ export default function GlobeCanvas({ surfaces, statusLine }: Props) {
         context.fillStyle = 'rgba(226, 232, 240, 0.9)'
         context.font = '600 16px Inter, system-ui, sans-serif'
         context.textAlign = 'center'
-        context.fillText('Awaiting ecobe-mvp payload', centerX, centerY - 6)
+        context.fillText('Awaiting backend payload', centerX, centerY - 6)
         context.font = '400 10px JetBrains Mono, monospace'
         context.fillStyle = 'rgba(148, 163, 184, 0.85)'
         context.fillText(statusLine, centerX, centerY + 14)
@@ -128,7 +128,7 @@ export default function GlobeCanvas({ surfaces, statusLine }: Props) {
       context.fillStyle = 'rgba(226, 232, 240, 0.88)'
       context.font = '600 15px Inter, system-ui, sans-serif'
       context.textAlign = 'center'
-      context.fillText('HaloGrid console surface', centerX, centerY - radiusY - 28)
+      context.fillText('CO2 Grid console surface', centerX, centerY - radiusY - 28)
       context.font = '400 10px JetBrains Mono, monospace'
       context.fillStyle = 'rgba(148, 163, 184, 0.95)'
       context.fillText(statusLine, centerX, centerY - radiusY - 12)

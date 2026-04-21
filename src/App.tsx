@@ -322,10 +322,10 @@ export default function App() {
               <ShieldCheck size={18} />
             </div>
             <div>
-              <div className="text-[10px] font-mono uppercase tracking-[0.28em] text-sky-300/70">HaloGrid</div>
+              <div className="text-[10px] font-mono uppercase tracking-[0.28em] text-sky-300/70">CO2 Grid</div>
               <div className="mt-1 text-lg font-semibold text-slate-50">CO2 Router control plane</div>
               <div className="text-sm text-slate-400">
-                View layer only. HaloGrid talks to ecobe-mvp and does not call the engine directly.
+                View layer only. CO2 Grid talks to the approved backend and does not call the engine directly.
               </div>
             </div>
           </div>
@@ -375,7 +375,7 @@ export default function App() {
           <StatCard
             label="Proof records"
             value={proofLoading ? 'Loading' : `${proofRecords.length}`}
-            note="Recent decision and proof history from ecobe-mvp."
+            note="Recent decision and proof history from the approved backend."
           />
           <StatCard
             label="Policies"
@@ -399,7 +399,7 @@ export default function App() {
             <SectionHeader
               eyebrow="Dashboard"
               title="Recent decision activity"
-              description="This view is derived from ecobe-mvp proof records. It shows the latest available decision data and refreshes on a polling interval."
+              description="This view is derived from backend proof records. It shows the latest available decision data and refreshes on a polling interval."
               action={proofRefreshing ? <LoadingLine label="Refreshing proof records" /> : null}
             />
 
@@ -409,7 +409,7 @@ export default function App() {
                 <div className="rounded-3xl border border-white/10 bg-white/[0.02] p-6">
                   <div className="flex items-center gap-3 text-sm text-slate-300">
                     <Loader2 size={16} className="animate-spin" />
-                    Loading recent decision activity from ecobe-mvp.
+                    Loading recent decision activity from the backend.
                   </div>
                 </div>
               ) : recentDecisions.length > 0 ? (
@@ -440,7 +440,7 @@ export default function App() {
               ) : (
                 <EmptyState
                   title="No proof records yet"
-                  message="ecobe-mvp has not returned any proof records. When records arrive, the latest decision activity will appear here automatically."
+                  message="The backend has not returned any proof records. When records arrive, the latest decision activity will appear here automatically."
                 />
               )}
             </div>
@@ -453,7 +453,7 @@ export default function App() {
               <SectionHeader
                 eyebrow="Policies"
                 title="Create policy"
-                description="Policies are created through ecobe-mvp only. HaloGrid stores no local policy logic."
+                description="Policies are created through the approved backend only. CO2 Grid stores no local policy logic."
                 action={policiesRefreshing ? <LoadingLine label="Refreshing policies" /> : null}
               />
 
@@ -524,7 +524,7 @@ export default function App() {
               <SectionHeader
                 eyebrow="Policies"
                 title="Latest policies"
-                description="The list reflects the current policy set returned by ecobe-mvp. No policy state is stored locally."
+                description="The list reflects the current policy set returned by the backend. No policy state is stored locally."
               />
 
               <div className="mt-4 space-y-4">
@@ -533,7 +533,7 @@ export default function App() {
                   <div className="rounded-3xl border border-white/10 bg-white/[0.02] p-6">
                     <div className="flex items-center gap-3 text-sm text-slate-300">
                       <Loader2 size={16} className="animate-spin" />
-                      Loading policies from ecobe-mvp.
+                      Loading policies from the backend.
                     </div>
                   </div>
                 ) : sortedPolicies.length > 0 ? (
@@ -574,7 +574,7 @@ export default function App() {
                 ) : (
                   <EmptyState
                     title="No policies returned"
-                    message="ecobe-mvp did not return any policies. Once the backend exposes policy records, they will appear here."
+                    message="The backend did not return any policies. Once policy records are exposed, they will appear here."
                   />
                 )}
               </div>
@@ -587,7 +587,7 @@ export default function App() {
             <SectionHeader
               eyebrow="Logs"
               title="Proof records"
-              description="This page displays proof records from ecobe-mvp and is the same source used to populate the dashboard."
+              description="This page displays proof records from the backend and is the same source used to populate the dashboard."
               action={proofRefreshing ? <LoadingLine label="Refreshing proof records" /> : null}
             />
 
@@ -597,7 +597,7 @@ export default function App() {
                 <div className="rounded-3xl border border-white/10 bg-white/[0.02] p-6">
                   <div className="flex items-center gap-3 text-sm text-slate-300">
                     <Loader2 size={16} className="animate-spin" />
-                    Loading proof records from ecobe-mvp.
+                    Loading proof records from the backend.
                   </div>
                 </div>
               ) : proofRecords.length > 0 ? (
@@ -630,7 +630,7 @@ export default function App() {
               ) : (
                 <EmptyState
                   title="No proof records returned"
-                  message="ecobe-mvp has not exposed proof records yet. This page will populate automatically once the backend returns them."
+                  message="The backend has not exposed proof records yet. This page will populate automatically once the backend returns them."
                 />
               )}
             </div>
@@ -641,7 +641,7 @@ export default function App() {
           <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
             <div className="inline-flex items-center gap-2">
               <AlertCircle size={14} className="text-amber-300" />
-              <span>HaloGrid is a control/view layer only. All API calls remain pinned to ecobe-mvp.</span>
+              <span>CO2 Grid is a control/view layer only. All API calls remain pinned to the approved backend.</span>
             </div>
             <div className="inline-flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.18em] text-slate-500">
               <span>{pageLabel(activePage)}</span>

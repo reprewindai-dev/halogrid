@@ -62,7 +62,7 @@ export default function RightPanel({ snapshot }: Props) {
           Runtime note
         </div>
         <div className="mt-3 text-sm leading-relaxed text-slate-200">
-          HaloGrid renders as a console-only surface. It is pinned to ecobe-mvp and has no backend bypass path.
+          CO2 Grid renders as a console-only surface. It is pinned to the approved backend and has no backend bypass path.
         </div>
       </div>
     </aside>

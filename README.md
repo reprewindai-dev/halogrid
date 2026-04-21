@@ -1,16 +1,16 @@
-# HaloGrid
+# CO2 Grid
 
-HaloGrid is the console frontend for CO2 Router.
+CO2 Grid is the console frontend for CO2 Router.
 
 ## Architecture Contract
 
-HaloGrid is a control-plane UI only.
+CO2 Grid is a control-plane UI only.
 
-- HaloGrid communicates exclusively with `ecobe-mvp`.
-- HaloGrid never calls `ecobe-engine-claude` or any other internal service directly.
-- HaloGrid does not store policy logic locally.
-- `ecobe-mvp` is the only approved frontend-facing backend surface.
-- Dashboard, Policies, and Logs all render data exposed by `ecobe-mvp`.
+- CO2 Grid communicates exclusively with the approved backend.
+- CO2 Grid never calls `ecobe-engine-claude` or any other internal service directly.
+- CO2 Grid does not store policy logic locally.
+- The approved backend is the only frontend-facing backend surface.
+- Dashboard, Policies, and Logs all render data exposed by the backend.
 
 ## Frontend API Expectations
 
@@ -28,7 +28,7 @@ Role of this repo:
 - Not the root website
 - Not the engine
 - Never calls the engine directly
-- Calls `ecobe-mvp` only
+- Calls the approved backend only
 
 ## Run
 

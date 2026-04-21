@@ -35,7 +35,7 @@ export default function TopBar({ snapshot, connectionState, onRefresh, time }: P
         </div>
         <div className="min-w-0">
           <div className="text-xs font-semibold tracking-[0.28em] uppercase text-slate-100">
-            HaloGrid
+            CO2 Grid
           </div>
           <div className="text-[10px] font-mono tracking-[0.22em] uppercase text-sky-300/70 truncate">
             CO2 Router console only
@@ -64,7 +64,7 @@ export default function TopBar({ snapshot, connectionState, onRefresh, time }: P
           type="button"
           onClick={onRefresh}
           className="h-9 w-9 rounded-xl border border-white/10 bg-white/[0.04] text-slate-200 transition-colors hover:bg-sky-400/10"
-          aria-label="Refresh ecobe-mvp status"
+          aria-label="Refresh backend status"
         >
           <RefreshCcw size={14} className="mx-auto" />
         </button>

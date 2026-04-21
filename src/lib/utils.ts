@@ -53,6 +53,6 @@ export const formatBaseUrl = (baseUrl: string): string => {
     const parsed = new URL(baseUrl, window.location.origin)
     return parsed.pathname.replace(/\/$/, '') || '/'
   } catch {
-    return baseUrl.replace(/\/$/, '') || '/api/ecobe-mvp'
+    return baseUrl.replace(/\/$/, '') || '/api/backend'
   }
 }
