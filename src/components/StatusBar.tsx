@@ -1,22 +1,45 @@
-import type { SystemMetrics, Tier } from '../types'
+import type { ConsoleSnapshot, ConnectionState, ConsoleStatus } from '../types'
+import { toneColor } from '../lib/utils'
 
-export default function StatusBar({ metrics, tier, paused }: { metrics:SystemMetrics; tier:Tier; paused:boolean }) {
+interface Props {
+  snapshot: ConsoleSnapshot
+  connectionState: ConnectionState
+  status: ConsoleStatus
+}
+
+function labelForConnection(state: ConnectionState): string {
+  const map: Record<ConnectionState, string> = {
+    idle: 'IDLE',
+    connecting: 'CONNECTING',
+    connected: 'CONNECTED',
+    degraded: 'DEGRADED',
+    blocked: 'BLOCKED',
+    error: 'ERROR',
+  }
+  return map[state]
+}
+
+export default function StatusBar({ snapshot, connectionState, status }: Props) {
+  const tone = connectionState === 'connected' ? 'positive' : connectionState === 'blocked' ? 'danger' : connectionState === 'degraded' ? 'warning' : 'neutral'
+
   return (
-    <div className="flex-shrink-0 flex items-center justify-between px-4 py-1.5"
-      style={{ borderTop:'1px solid rgba(56,189,248,0.06)', background:'rgba(6,13,24,0.92)', fontSize:9 }}>
-      <div className="flex items-center gap-4 font-mono text-muted">
-        <span className="flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full" style={{ background: paused ? '#fbbf24' : '#4ade80',
-            boxShadow: paused ? '0 0 5px #fbbf24' : '0 0 5px #4ade80' }}/>
-          {paused ? 'PAUSED' : 'LIVE'}
+    <div
+      className="flex items-center justify-between gap-3 border-t border-white/10 px-4 py-2 console-shell"
+      style={{ fontSize: 10 }}
+    >
+      <div className="flex flex-wrap items-center gap-4 font-mono tracking-[0.14em] uppercase text-slate-400">
+        <span className="flex items-center gap-2">
+          <span className="h-2 w-2 rounded-full" style={{ background: toneColor(tone), boxShadow: `0 0 10px ${toneColor(tone)}55` }} />
+          <span>{labelForConnection(connectionState)}</span>
         </span>
-        <span className="tracking-widest">TIER: {tier.toUpperCase()}</span>
-        <span className="tracking-widest">REGIONS: {metrics.activeRegions}/{10}</span>
+        <span>STATUS: {status}</span>
+        <span>TARGET: {snapshot.backendLabel}</span>
+        <span>SURFACE: CONSOLE ONLY</span>
       </div>
-      <div className="flex items-center gap-4 font-mono text-muted">
-        <span>v0.1.0-alpha</span>
-        <span>CO₂ROUTER © 2026</span>
-        <span className="tracking-widest" style={{color:'rgba(56,189,248,0.35)'}}>HALOGRID</span>
+      <div className="flex flex-wrap items-center gap-4 font-mono tracking-[0.14em] uppercase text-slate-500">
+        {snapshot.guardrails.slice(0, 3).map((item) => (
+          <span key={item}>{item}</span>
+        ))}
       </div>
     </div>
   )

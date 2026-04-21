@@ -1,152 +1,147 @@
-import { useRef, useEffect, useState } from 'react'
-import type { Region } from '../types'
-import { stateColor } from '../lib/utils'
+import { useEffect, useRef } from 'react'
+import type { ConsoleSurface } from '../types'
+import { toneColor } from '../lib/utils'
 
-interface Props { regions: Region[]; onRegionClick: (r: Region) => void }
-
-function project(lat: number, lng: number, cx: number, cy: number, rx: number, ry: number) {
-  const x = cx + (lng / 180) * rx
-  const y = cy - (lat / 90)  * ry
-  return { x, y }
+interface Props {
+  surfaces: ConsoleSurface[]
+  statusLine: string
 }
 
-export default function GlobeCanvas({ regions, onRegionClick }: Props) {
-  const canvas = useRef<HTMLCanvasElement>(null)
-  const [hover, setHover] = useState<string | null>(null)
-  const animRef = useRef<number>()
-  const frameRef = useRef(0)
+function drawLabel(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  label: string,
+  tone: string,
+) {
+  ctx.save()
+  ctx.font = '500 11px JetBrains Mono, monospace'
+  ctx.fillStyle = '#e2e8f0'
+  ctx.textAlign = 'center'
+  ctx.fillText(label, x, y)
+  ctx.font = '400 9px JetBrains Mono, monospace'
+  ctx.fillStyle = tone
+  ctx.fillText(label, x, y + 14)
+  ctx.restore()
+}
+
+export default function GlobeCanvas({ surfaces, statusLine }: Props) {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
-    const c = canvas.current; if (!c) return
-    const ctx = c.getContext('2d')!
-    let dpr = window.devicePixelRatio || 1
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const context = canvas.getContext('2d')
+    if (!context) return
+
+    const parent = canvas.parentElement
+    if (!parent) return
 
     const resize = () => {
-      const w = c.parentElement!.clientWidth
-      const h = c.parentElement!.clientHeight
-      c.width  = w * dpr; c.height = h * dpr
-      c.style.width  = w + 'px'; c.style.height = h + 'px'
-      ctx.scale(dpr, dpr)
+      const width = parent.clientWidth
+      const height = parent.clientHeight
+      const dpr = window.devicePixelRatio || 1
+      canvas.width = Math.max(1, Math.floor(width * dpr))
+      canvas.height = Math.max(1, Math.floor(height * dpr))
+      canvas.style.width = `${width}px`
+      canvas.style.height = `${height}px`
+      context.setTransform(dpr, 0, 0, dpr, 0, 0)
+
+      const w = width
+      const h = height
+      context.clearRect(0, 0, w, h)
+
+      const centerX = w / 2
+      const centerY = h / 2
+      const radiusX = Math.min(w * 0.36, 320)
+      const radiusY = Math.min(h * 0.32, 240)
+
+      const gradient = context.createRadialGradient(centerX, centerY, 0, centerX, centerY, Math.max(radiusX, radiusY) * 1.25)
+      gradient.addColorStop(0, 'rgba(56, 189, 248, 0.12)')
+      gradient.addColorStop(0.55, 'rgba(15, 23, 42, 0.04)')
+      gradient.addColorStop(1, 'rgba(15, 23, 42, 0)')
+      context.fillStyle = gradient
+      context.fillRect(0, 0, w, h)
+
+      context.strokeStyle = 'rgba(148, 163, 184, 0.14)'
+      context.lineWidth = 1
+      for (let step = -4; step <= 4; step += 1) {
+        const y = centerY + (step / 4) * radiusY
+        context.beginPath()
+        context.ellipse(centerX, y, radiusX, radiusY * (1 - Math.abs(step) * 0.09), 0, 0, Math.PI * 2)
+        context.stroke()
+      }
+
+      context.strokeStyle = 'rgba(56, 189, 248, 0.16)'
+      for (let step = -4; step <= 4; step += 1) {
+        const x = centerX + (step / 4) * radiusX
+        context.beginPath()
+        context.ellipse(x, centerY, radiusX * (1 - Math.abs(step) * 0.08), radiusY, 0, 0, Math.PI * 2)
+        context.stroke()
+      }
+
+      context.beginPath()
+      context.ellipse(centerX, centerY, radiusX, radiusY, 0, 0, Math.PI * 2)
+      context.strokeStyle = 'rgba(226, 232, 240, 0.18)'
+      context.lineWidth = 1.25
+      context.stroke()
+
+      const anchors = surfaces.length > 0 ? surfaces.slice(0, 3) : []
+      const positions = [
+        { x: centerX - radiusX * 0.42, y: centerY - radiusY * 0.18 },
+        { x: centerX + radiusX * 0.38, y: centerY - radiusY * 0.08 },
+        { x: centerX - radiusX * 0.04, y: centerY + radiusY * 0.35 },
+      ]
+
+      if (anchors.length === 0) {
+        context.fillStyle = 'rgba(226, 232, 240, 0.9)'
+        context.font = '600 16px Inter, system-ui, sans-serif'
+        context.textAlign = 'center'
+        context.fillText('Awaiting ecobe-mvp payload', centerX, centerY - 6)
+        context.font = '400 10px JetBrains Mono, monospace'
+        context.fillStyle = 'rgba(148, 163, 184, 0.85)'
+        context.fillText(statusLine, centerX, centerY + 14)
+        return
+      }
+
+      anchors.forEach((surface, index) => {
+        const position = positions[index] ?? positions[positions.length - 1]
+        const color = toneColor(surface.status === 'green' ? 'positive' : surface.status === 'yellow' ? 'warning' : 'danger')
+        context.beginPath()
+        context.arc(position.x, position.y, 7, 0, Math.PI * 2)
+        context.fillStyle = `${color}dd`
+        context.fill()
+        context.strokeStyle = color
+        context.lineWidth = 1.5
+        context.stroke()
+
+        context.beginPath()
+        context.arc(position.x, position.y, 18, 0, Math.PI * 2)
+        context.strokeStyle = `${color}22`
+        context.lineWidth = 10
+        context.stroke()
+
+        drawLabel(context, position.x, position.y - 18, surface.code, color)
+      })
+
+      context.fillStyle = 'rgba(226, 232, 240, 0.88)'
+      context.font = '600 15px Inter, system-ui, sans-serif'
+      context.textAlign = 'center'
+      context.fillText('HaloGrid console surface', centerX, centerY - radiusY - 28)
+      context.font = '400 10px JetBrains Mono, monospace'
+      context.fillStyle = 'rgba(148, 163, 184, 0.95)'
+      context.fillText(statusLine, centerX, centerY - radiusY - 12)
     }
+
+    const observer = new ResizeObserver(resize)
+    observer.observe(parent)
     resize()
-    const ro = new ResizeObserver(resize); ro.observe(c.parentElement!)
 
-    const draw = () => {
-      frameRef.current++
-      const w = c.width / dpr; const h = c.height / dpr
-      ctx.clearRect(0, 0, w, h)
-
-      const cx = w / 2; const cy = h / 2
-      const rx = w * 0.44; const ry = h * 0.42
-
-      // Grid lines
-      ctx.strokeStyle = 'rgba(56,189,248,0.06)'; ctx.lineWidth = 0.5
-      for (let lng = -180; lng <= 180; lng += 30) {
-        const { x: x1 } = project(-90, lng, cx, cy, rx, ry)
-        const { x: x2 } = project( 90, lng, cx, cy, rx, ry)
-        ctx.beginPath(); ctx.moveTo(x1, cy + ry); ctx.lineTo(x2, cy - ry); ctx.stroke()
-      }
-      for (let lat = -75; lat <= 75; lat += 30) {
-        const { x: x1, y } = project(lat, -180, cx, cy, rx, ry)
-        ctx.beginPath(); ctx.moveTo(x1, y); ctx.lineTo(cx + rx, y); ctx.stroke()
-      }
-
-      // Equator & meridian
-      ctx.strokeStyle = 'rgba(56,189,248,0.12)'; ctx.lineWidth = 0.8
-      ctx.beginPath(); ctx.moveTo(cx - rx, cy); ctx.lineTo(cx + rx, cy); ctx.stroke()
-      ctx.beginPath(); ctx.moveTo(cx, cy - ry); ctx.lineTo(cx, cy + ry); ctx.stroke()
-
-      // Region nodes
-      regions.forEach(r => {
-        const { x, y } = project(r.lat, r.lng, cx, cy, rx, ry)
-        const color = stateColor(r.state)
-        const isHovered = hover === r.id
-        const pulse = Math.sin(frameRef.current * 0.05 + r.lat) * 0.5 + 0.5
-        const radius = isHovered ? 9 : 6
-
-        // Pulse ring
-        if (r.state !== 'green') {
-          ctx.beginPath()
-          ctx.arc(x, y, radius + 4 + pulse * 5, 0, Math.PI * 2)
-          ctx.strokeStyle = color + '22'; ctx.lineWidth = 1.5; ctx.stroke()
-        }
-
-        // Outer glow
-        const grd = ctx.createRadialGradient(x, y, 0, x, y, radius + 10)
-        grd.addColorStop(0, color + '55'); grd.addColorStop(1, 'transparent')
-        ctx.fillStyle = grd; ctx.beginPath(); ctx.arc(x, y, radius + 10, 0, Math.PI * 2); ctx.fill()
-
-        // Core dot
-        ctx.beginPath(); ctx.arc(x, y, radius, 0, Math.PI * 2)
-        ctx.fillStyle = color + 'cc'; ctx.fill()
-        ctx.strokeStyle = color; ctx.lineWidth = isHovered ? 2 : 1; ctx.stroke()
-
-        // Label
-        if (isHovered) {
-          ctx.font = '600 11px JetBrains Mono, monospace'
-          ctx.fillStyle = '#e2e8f0'; ctx.textAlign = 'left'
-          ctx.fillText(r.code, x + 12, y + 4)
-          ctx.font = '400 9px JetBrains Mono, monospace'
-          ctx.fillStyle = color; ctx.fillText(r.carbon + ' g', x + 12, y + 14)
-        } else {
-          ctx.font = '500 9px JetBrains Mono, monospace'
-          ctx.fillStyle = color + 'cc'; ctx.textAlign = 'center'
-          ctx.fillText(r.code, x, y - 10)
-        }
-      })
-
-      // Arc connections from red/yellow to nearest green
-      regions.filter(r => r.lastDecision === 'SHIFT_REGION').forEach(r => {
-        const target = regions.find(t => t.state === 'green' && t.id !== r.id)
-        if (!target) return
-        const s = project(r.lat, r.lng, cx, cy, rx, ry)
-        const e = project(target.lat, target.lng, cx, cy, rx, ry)
-        const mx = (s.x + e.x) / 2; const my = (s.y + e.y) / 2 - 30
-        const alpha = 0.35 + Math.sin(frameRef.current * 0.08) * 0.15
-        ctx.beginPath(); ctx.moveTo(s.x, s.y); ctx.quadraticCurveTo(mx, my, e.x, e.y)
-        ctx.strokeStyle = `rgba(56,189,248,${alpha})`; ctx.lineWidth = 1; ctx.setLineDash([4,6])
-        ctx.stroke(); ctx.setLineDash([])
-      })
-
-      animRef.current = requestAnimationFrame(draw)
+    return () => {
+      observer.disconnect()
     }
+  }, [surfaces, statusLine])
 
-    animRef.current = requestAnimationFrame(draw)
-    return () => { cancelAnimationFrame(animRef.current!); ro.disconnect() }
-  }, [regions, hover])
-
-  const handleClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    const c = canvas.current; if (!c) return
-    const dpr = window.devicePixelRatio || 1
-    const rect = c.getBoundingClientRect()
-    const mx = (e.clientX - rect.left)
-    const my = (e.clientY - rect.top)
-    const w = c.width / dpr; const h = c.height / dpr
-    const cx = w / 2; const cy = h / 2; const rx = w * 0.44; const ry = h * 0.42
-    regions.forEach(r => {
-      const { x, y } = project(r.lat, r.lng, cx, cy, rx, ry)
-      if (Math.hypot(mx - x, my - y) < 14) onRegionClick(r)
-    })
-  }
-
-  const handleMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    const c = canvas.current; if (!c) return
-    const dpr = window.devicePixelRatio || 1
-    const rect = c.getBoundingClientRect()
-    const mx = e.clientX - rect.left; const my = e.clientY - rect.top
-    const w = c.width / dpr; const h = c.height / dpr
-    const cx = w / 2; const cy = h / 2; const rx = w * 0.44; const ry = h * 0.42
-    let found: string | null = null
-    regions.forEach(r => {
-      const { x, y } = project(r.lat, r.lng, cx, cy, rx, ry)
-      if (Math.hypot(mx - x, my - y) < 14) found = r.id
-    })
-    setHover(found)
-    c.style.cursor = found ? 'pointer' : 'default'
-  }
-
-  return (
-    <canvas ref={canvas} onClick={handleClick} onMouseMove={handleMove}
-      style={{ width:'100%', height:'100%', display:'block' }}/>
-  )
+  return <canvas ref={canvasRef} className="block h-full w-full" />
 }

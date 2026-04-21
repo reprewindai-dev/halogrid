@@ -1,14 +1,26 @@
-# HaloGrid Architecture
+# HaloGrid Console Architecture
+
+## Scope
+
+HaloGrid is the console frontend only.
+
+It is pinned to `ecobe-mvp` and must not call any backend bypass surface.
 
 ## Data Flow
-Simulation engine (lib/simulation.ts) → useSimulation hook → React state → Components
 
-## Key Concepts
-- **Region** — A cloud datacenter node with live carbon, load, water stress signals
-- **Decision** — A routing action taken by the CO2 Router engine
-- **TraceFrame** — Cryptographic proof entry for Elite tier audit log
-- **Tier** — Feature gate: Freeview / Core / Elite
+`ecobe-mvp` -> `src/lib/ecobeMvpApi.ts` -> `src/App.tsx` -> console panels
 
-## Simulation Loop
-Runs on `setInterval` at 2200ms (Core/Elite) or 4000ms (Freeview).
-Each tick: regions get stochastic carbon/load drift → router fires decisions → metrics recalc.
+## Render Guarantees
+
+- The console always renders a structured shell.
+- The simulation surface is disabled.
+- No blank shell is allowed on first paint.
+- No live-surface wording is derived from fake telemetry.
+
+## Runtime Surface
+
+- Top bar: backend target, connection state, refresh control
+- Left panel: contract, guardrails, metrics, surface summary
+- Center: static console canvas
+- Right panel: integrations and activity rail
+- Bottom bar: status and enforcement summary

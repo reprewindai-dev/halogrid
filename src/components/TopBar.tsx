@@ -1,91 +1,80 @@
-import { Pause, Play, RotateCcw, Shield, Zap, Globe } from 'lucide-react'
-import type { SystemMetrics, Tier } from '../types'
-import { formatTime } from '../lib/utils'
+import { RefreshCcw, ShieldCheck, Slash } from 'lucide-react'
+import type { ConsoleSnapshot, ConnectionState } from '../types'
+import { formatDateTime, formatTime, toneColor } from '../lib/utils'
 
 interface Props {
-  metrics: SystemMetrics
-  tier: Tier
-  paused: boolean
-  onToggle: () => void
-  onReset: () => void
-  onTierChange: (t: Tier) => void
+  snapshot: ConsoleSnapshot
+  connectionState: ConnectionState
+  onRefresh: () => void
   time: number
 }
 
-const TIER_CFG: { id: Tier; label: string; icon: typeof Shield }[] = [
-  { id: 'freeview', label: 'Freeview', icon: Globe  },
-  { id: 'core',     label: 'Core',     icon: Zap    },
-  { id: 'elite',    label: 'Elite',    icon: Shield },
-]
+function connectionLabel(connectionState: ConnectionState): string {
+  const map: Record<ConnectionState, string> = {
+    idle: 'IDLE',
+    connecting: 'CONNECTING',
+    connected: 'CONNECTED',
+    degraded: 'DEGRADED',
+    blocked: 'BLOCKED',
+    error: 'ERROR',
+  }
+  return map[connectionState]
+}
 
-export default function TopBar({ metrics, tier, paused, onToggle, onReset, onTierChange, time }: Props) {
+export default function TopBar({ snapshot, connectionState, onRefresh, time }: Props) {
+  const accent = toneColor(connectionState === 'connected' ? 'positive' : connectionState === 'blocked' ? 'danger' : connectionState === 'degraded' ? 'warning' : 'neutral')
+
   return (
-    <header className="flex-shrink-0 flex items-center justify-between px-5 py-2.5"
-      style={{ borderBottom:'1px solid rgba(56,189,248,0.07)', background:'rgba(6,13,24,0.92)', backdropFilter:'blur(24px)' }}>
-
-      {/* Logo */}
-      <div className="flex items-center gap-3">
-        <svg viewBox="0 0 32 32" width="28" height="28" fill="none" aria-label="HaloGrid">
-          <circle cx="16" cy="16" r="14" stroke="#38bdf8" strokeWidth="1.5" opacity="0.35"/>
-          <circle cx="16" cy="16" r="9"  stroke="#2dd4bf" strokeWidth="1.5" opacity="0.55"/>
-          <circle cx="16" cy="16" r="4"  fill="#38bdf8"/>
-          <line x1="16" y1="2"  x2="16" y2="7"  stroke="#38bdf8" strokeWidth="1.5" opacity="0.6"/>
-          <line x1="16" y1="25" x2="16" y2="30" stroke="#38bdf8" strokeWidth="1.5" opacity="0.6"/>
-          <line x1="2"  y1="16" x2="7"  y2="16" stroke="#38bdf8" strokeWidth="1.5" opacity="0.6"/>
-          <line x1="25" y1="16" x2="30" y2="16" stroke="#38bdf8" strokeWidth="1.5" opacity="0.6"/>
-        </svg>
-        <div>
-          <div className="text-sm font-bold tracking-wide" style={{color:'#e2e8f0', letterSpacing:'0.06em'}}>HALOGRID</div>
-          <div className="text-[9px] font-mono tracking-widest" style={{color:'rgba(56,189,248,0.5)'}}>CO₂ ROUTER CONTROL PLANE</div>
+    <header
+      className="flex items-center justify-between gap-4 px-5 py-3 console-shell"
+      style={{ borderBottom: '1px solid rgba(148, 163, 184, 0.12)' }}
+    >
+      <div className="flex items-center gap-3 min-w-0">
+        <div className="halo-mark" aria-hidden="true">
+          <span className="halo-mark-core" />
         </div>
-      </div>
-
-      {/* KPIs */}
-      <div className="hidden md:flex items-center gap-6">
-        {[
-          { label:'SAVED',    value:`${metrics.totalSavings} kg`, color:'#4ade80' },
-          { label:'DECISIONS',value:`${metrics.decisionsToday}`,  color:'#38bdf8' },
-          { label:'AVG CO₂',  value:`${metrics.avgCarbon} g`,     color:'#fbbf24' },
-          { label:'UPTIME',   value:`${metrics.uptimePct}%`,      color:'#4ade80' },
-          { label:'ALERTS',   value:`${metrics.alertCount}`,      color: metrics.alertCount > 0 ? '#f87171' : '#4ade80' },
-        ].map(k => (
-          <div key={k.label} className="text-center">
-            <div className="text-[9px] font-mono text-muted tracking-widest">{k.label}</div>
-            <div className="text-sm font-bold font-mono tabular-nums" style={{color:k.color}}>{k.value}</div>
+        <div className="min-w-0">
+          <div className="text-xs font-semibold tracking-[0.28em] uppercase text-slate-100">
+            HaloGrid
           </div>
-        ))}
+          <div className="text-[10px] font-mono tracking-[0.22em] uppercase text-sky-300/70 truncate">
+            CO2 Router console only
+          </div>
+        </div>
       </div>
 
-      {/* Controls */}
+      <div className="hidden lg:flex items-center gap-4 text-[10px] font-mono tracking-[0.18em] uppercase text-slate-400">
+        <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+          {snapshot.backendLabel}
+        </span>
+        <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+          {snapshot.backendBaseUrl}
+        </span>
+        <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1" style={{ color: accent }}>
+          {connectionLabel(connectionState)}
+        </span>
+      </div>
+
       <div className="flex items-center gap-2">
-        {/* Tier pills */}
-        <div className="flex gap-0.5 bg-white/[0.03] rounded-xl p-0.5 mr-2">
-          {TIER_CFG.map(({ id, label }) => (
-            <button key={id} onClick={() => onTierChange(id)}
-              className="px-3 py-1 rounded-[10px] text-[9px] font-mono tracking-widest uppercase transition-all"
-              style={{ background:tier===id?'rgba(56,189,248,0.15)':'transparent', color:tier===id?'#38bdf8':'#64748b',
-                       boxShadow: tier===id?'0 0 8px rgba(56,189,248,0.2)':undefined }}>
-              {label}
-            </button>
-          ))}
+        <div className="hidden md:flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[10px] font-mono tracking-[0.16em] uppercase text-slate-300">
+          <ShieldCheck size={12} color={accent} />
+          <span>{snapshot.statusLine}</span>
         </div>
-
-        <button onClick={onToggle}
-          className="w-8 h-8 rounded-xl flex items-center justify-center transition-all"
-          style={{ background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.08)' }}
-          onMouseEnter={e => e.currentTarget.style.background='rgba(56,189,248,0.1)'}
-          onMouseLeave={e => e.currentTarget.style.background='rgba(255,255,255,0.04)'}>
-          {paused ? <Play size={13} color="#38bdf8"/> : <Pause size={13} color="#64748b"/>}
+        <button
+          type="button"
+          onClick={onRefresh}
+          className="h-9 w-9 rounded-xl border border-white/10 bg-white/[0.04] text-slate-200 transition-colors hover:bg-sky-400/10"
+          aria-label="Refresh ecobe-mvp status"
+        >
+          <RefreshCcw size={14} className="mx-auto" />
         </button>
-        <button onClick={onReset}
-          className="w-8 h-8 rounded-xl flex items-center justify-center transition-all"
-          style={{ background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.08)' }}
-          onMouseEnter={e => e.currentTarget.style.background='rgba(248,113,113,0.1)'}
-          onMouseLeave={e => e.currentTarget.style.background='rgba(255,255,255,0.04)'}>
-          <RotateCcw size={13} color="#64748b"/>
-        </button>
-
-        <div className="text-[10px] font-mono text-muted ml-2 tabular-nums">{formatTime(time)}</div>
+        <div className="hidden sm:flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-[10px] font-mono tracking-[0.18em] uppercase text-slate-400">
+          <Slash size={12} color={accent} />
+          <span>{formatDateTime(snapshot.lastSyncedAt)}</span>
+        </div>
+        <div className="text-[10px] font-mono tracking-[0.18em] uppercase text-slate-500">
+          {formatTime(time)}
+        </div>
       </div>
     </header>
   )

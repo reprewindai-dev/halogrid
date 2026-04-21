@@ -1,37 +1,34 @@
-# HaloGrid — CO₂ Router Control Plane
+# HaloGrid
 
-Carbon-aware routing dashboard built with React + Vite + Tailwind + Framer Motion.
+HaloGrid is the console frontend for CO2 Router.
 
-## Stack
-- React 18 + TypeScript
-- Vite 5
-- Tailwind CSS 3
-- Framer Motion 11
-- Recharts 2
-- Lucide React
+Role of this repo:
 
-## Quick Start
+- Console frontend only
+- Not the root website
+- Not the engine
+- Never calls the engine directly
+- Calls `ecobe-mvp` only
+
+## Run
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open http://localhost:5173
+## Backend target
 
-## Tiers
-| Tier     | Features                                      |
-|----------|-----------------------------------------------|
-| Freeview | Region list, globe, basic metrics             |
-| Core     | + Signal providers, decision stream, confidence |
-| Elite    | + Trace rail, proof hashes, full audit log    |
+Set `VITE_ECOBE_MVP_BASE_URL` when the console is deployed behind a different proxy path.
 
-## Project Structure
+Default:
+
+```text
+/api/ecobe-mvp
 ```
-src/
-├── components/   UI components
-├── hooks/        useSimulation — live data engine
-├── lib/          utils, simulation engine, constants
-├── types/        TypeScript interfaces
-└── styles/       Global CSS + Tailwind
-```
+
+## Notes
+
+- Simulation state has been removed from the live console surface.
+- Blank-shell behavior is guarded by a deterministic console layout.
+- Backend bypass is blocked at the frontend contract level.
