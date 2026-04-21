@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" fill="none">
+  <rect width="1600" height="900" fill="#07111F"/>
+  <circle cx="1150" cy="250" r="240" fill="#0C2A3B"/>
+  <circle cx="1150" cy="250" r="160" fill="#123B52"/>
+  <path d="M170 620C320 520 430 500 610 540C770 576 860 500 990 392C1120 284 1270 240 1450 250" stroke="#7FE0C2" stroke-width="16" stroke-linecap="round"/>
+  <path d="M170 700C340 620 470 600 640 630C812 660 940 612 1080 516C1224 416 1340 368 1490 382" stroke="#3FA9F5" stroke-width="10" stroke-linecap="round" opacity="0.9"/>
+  <text x="120" y="170" fill="#EAF6FF" font-family="Inter, Arial, sans-serif" font-size="72" font-weight="700">CO2 Router</text>
+  <text x="120" y="248" fill="#9FC7D6" font-family="Inter, Arial, sans-serif" font-size="40" font-weight="500">Grid Intelligence</text>
+</svg>

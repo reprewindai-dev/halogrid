@@ -1,0 +1,21 @@
+[
+  {
+    "slug": "co2-router-grid-intelligence",
+    "title": "CO2 Router Grid Intelligence Is Now Live",
+    "excerpt": "HaloGrid now publishes the next CO2 Router signal as an operational blog release.",
+    "publishedAt": "2026-04-21T12:21:37.542Z",
+    "heroImage": "/blog-media/grid-intelligence-hero.svg",
+    "themeImage": "/blog-media/grid-intelligence-theme.svg",
+    "tags": [
+      "CO2 Router",
+      "HaloGrid",
+      "Operations"
+    ],
+    "body": [
+      "HaloGrid now publishes the next queued CO2 Router brief without manual intervention.",
+      "The control-plane narrative stays pinned to the approved media surface under /blog-media.",
+      "This release establishes a repeatable publishing loop for future operational updates."
+    ],
+    "status": "published"
+  }
+]
