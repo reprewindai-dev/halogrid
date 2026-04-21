@@ -5,7 +5,7 @@ import App from './App'
 const rootElement = document.getElementById('root')
 
 if (!rootElement) {
-  throw new Error('HaloGrid root mount element "#root" was not found')
+  throw new Error('CO2 Grid root mount element "#root" was not found')
 }
 
 createRoot(rootElement).render(

@@ -1,4 +1,4 @@
-# HaloGrid - CO2 Router Control Plane
+# CO2 Grid - CO2 Router Control Plane
 
 Carbon-aware routing dashboard built with React, Vite, Tailwind, and Framer Motion.
 
@@ -19,7 +19,7 @@ npm run dev
 
 Open `http://localhost:5173`.
 
-Set `VITE_MCP_API_BASE` to the ecobe-mvp broker URL (for example `https://<mcp-host>/api/v1`) in production environments.
+Set `VITE_MCP_API_BASE` to the approved broker URL (for example `https://<mcp-host>/api/v1`) in production environments.
 
 ## Tiers
 | Tier | Features |

@@ -3,7 +3,7 @@ import type { BackendHealth, Decision, Region, RouterAction, SystemMetrics, Trac
 const viteEnv = (import.meta as ImportMeta & { env?: Record<string, string | undefined> }).env
 
 // Browser calls must target the MCP broker surface only.
-export const HALOGRID_API_BASE = (
+export const CO2GRID_API_BASE = (
   viteEnv?.VITE_MCP_API_BASE ||
   '/api/ecobe'
 ).replace(/\/+$/, '')
@@ -92,7 +92,7 @@ function normalizeProviderKey(name: string) {
 }
 
 async function fetchJson(path: string) {
-  const response = await fetch(`${HALOGRID_API_BASE}${path}`, {
+  const response = await fetch(`${CO2GRID_API_BASE}${path}`, {
     headers: { Accept: 'application/json' },
     cache: 'no-store',
   })

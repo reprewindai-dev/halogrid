@@ -35,7 +35,7 @@ export default function StatusBar({
         {backendHealth && <span>DB {backendHealth.dependencies.database ? 'UP' : 'DOWN'} / REDIS {backendHealth.dependencies.redis ? 'UP' : 'DOWN'}</span>}
         <span>v0.1.0-alpha</span>
         <span>CO2ROUTER 2026</span>
-        <span className="tracking-widest" style={{ color: 'rgba(56,189,248,0.35)' }}>HALOGRID</span>
+        <span className="tracking-widest" style={{ color: 'rgba(56,189,248,0.35)' }}>CO2 GRID</span>
       </div>
     </div>
   )
