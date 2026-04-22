@@ -4,18 +4,53 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CO2 Grid — CO2 Router Control Plane</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        background: #060d18;
+        color: #e2e8f0;
+        font-family: Inter, system-ui, sans-serif;
+      }
+
+      #root {
+        min-height: 100vh;
+      }
+    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
     <script>
       if (window.location.protocol === 'file:' && !window.location.pathname.endsWith('/dist/index.html')) {
         window.location.replace('./dist/index.html')
       }
     </script>
     <script type="module" crossorigin src="./assets/index-Dw8T-vn-.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-s_IsVGJY.css">
+    <link rel="stylesheet" crossorigin href="./assets/index-s_IsVGJY.css" />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div
+        style="min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at top, rgba(56,189,248,0.08), transparent 30%), #060d18;color:#e2e8f0;padding:32px;"
+      >
+        <div
+          style="max-width:640px;width:100%;border:1px solid rgba(56,189,248,0.14);border-radius:24px;background:rgba(6,13,24,0.92);box-shadow:0 24px 64px rgba(0,0,0,0.35);padding:28px;"
+        >
+          <div style="font-family:JetBrains Mono, monospace;font-size:11px;letter-spacing:0.24em;color:#38bdf8;">
+            CO2 GRID
+          </div>
+          <h1 style="margin-top:14px;font-size:32px;line-height:1.05;margin-bottom:12px;">
+            Live console is hydrating.
+          </h1>
+          <p style="margin:0;color:#94a3b8;font-size:15px;line-height:1.7;">
+            The browser shell is up, but the control plane surface is still loading or recovering.
+          </p>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
