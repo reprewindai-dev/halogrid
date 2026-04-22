@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import type { Tier, ViewMode } from './types'
+import { useProviderConfig } from './hooks/useProviderConfig'
 import { useLiveControlPlane } from './hooks/useLiveControlPlane'
 import BlogHub from './components/BlogHub'
 import TopBar from './components/TopBar'
@@ -13,6 +14,7 @@ import './styles/globals.css'
 export default function App() {
   const [viewMode, setViewMode] = useState<ViewMode>('control')
   const [tier, setTier] = useState<Tier>('core')
+  const providerConfig = useProviderConfig()
   const { regions, decisions, traces, metrics, paused, toggle, reset, backendHealth, backendError } = useLiveControlPlane()
   const [selectedRegionId, setSelectedRegionId] = useState<string | null>(null)
   const [leftCollapsed, setLeftCollapsed] = useState(false)
@@ -55,6 +57,7 @@ export default function App() {
             onRegionClick={(region) => handleRegionClick(region.id)}
             backendHealth={backendHealth}
             backendError={backendError}
+            providerConfig={providerConfig}
             collapsed={leftCollapsed}
             onToggle={() => setLeftCollapsed((previous) => !previous)}
           />

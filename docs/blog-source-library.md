@@ -1,6 +1,6 @@
 # CO2 Router Blog Source Library
 
-This file is the editorial source archive for future CO2 Router and HaloGrid blog generation.
+This file is the editorial source archive for future CO2 Router and CO2 Grid blog generation.
 
 It captures:
 - core media assets to reference
@@ -170,7 +170,7 @@ This yields a repeatable monthly cycle without exhausting the core concepts.
 - Position CO2 Router as infrastructure, not an ESG add-on.
 - Invite operators to think in terms of execution authority.
 - Emphasize proof-backed control rather than best-effort sustainability.
-- Tie HaloGrid UI back to the control-plane story rather than design alone.
+- Tie CO2 Grid UI back to the control-plane story rather than design alone.
 
 ## Future Expansion
 

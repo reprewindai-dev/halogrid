@@ -1,4 +1,4 @@
-# HaloGrid Architecture
+# CO2 Grid Architecture
 
 ## Data Flow
 Simulation engine (lib/simulation.ts) → useSimulation hook → React state → Components

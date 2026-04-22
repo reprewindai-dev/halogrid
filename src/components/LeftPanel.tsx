@@ -1,5 +1,6 @@
 import { ChevronLeft, ChevronRight, Waves, Zap } from 'lucide-react'
 import type { BackendHealth, Region, Tier } from '../types'
+import type { ProviderConfigStatus } from '../hooks/useProviderConfig'
 import { actionColor, actionLabel, stateColor } from '../lib/utils'
 import { humanizeMode } from '../lib/backend'
 
@@ -11,6 +12,7 @@ interface Props {
   onToggle: () => void
   backendHealth: BackendHealth | null
   backendError: string | null
+  providerConfig?: ProviderConfigStatus | null
 }
 
 function pct(value: number) {
