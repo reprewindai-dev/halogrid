@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import type { Region, Tier } from './types'
 import { useSimulation } from './hooks/useSimulation'
+import { useLiveEngine } from './hooks/useLiveEngine'
 import TopBar from './components/TopBar'
 import LeftPanel from './components/LeftPanel'
 import GlobeCanvas from './components/GlobeCanvas'
@@ -10,8 +11,16 @@ import StatusBar from './components/StatusBar'
 import './styles/globals.css'
 
 export default function App() {
-  const [tier, setTier] = useState<Tier>('core')
-  const { regions, decisions, traces, metrics, paused, toggle, reset } = useSimulation(tier)
+  const [tier, setTier] = useState<Tier>('freeview')
+  const sim = useSimulation(tier)
+  const live = useLiveEngine()
+  const isLive = live.backendStatus === 'online'
+
+  const regions   = isLive ? live.regions   : sim.regions
+  const decisions = isLive ? live.decisions : sim.decisions
+  const metrics   = isLive ? live.metrics   : sim.metrics
+  const traces    = sim.traces
+
   const [selectedRegion, setSelectedRegion] = useState<Region | null>(null)
   const [leftCollapsed, setLeftCollapsed] = useState(false)
   const [time, setTime] = useState(Date.now())
@@ -22,7 +31,15 @@ export default function App() {
 
   return (
     <div className="flex flex-col h-screen overflow-hidden" style={{ background:'#060d18' }}>
-      <TopBar metrics={metrics} tier={tier} paused={paused} onToggle={toggle} onReset={reset} onTierChange={setTier} time={time}/>
+      {/* Backend status badge */}
+      <div className="flex-shrink-0 flex items-center justify-end px-5 py-1" style={{ background:'rgba(6,13,24,0.95)' }}>
+        <span className="text-[9px] font-mono tracking-widest uppercase flex items-center gap-1.5"
+          style={{ color: isLive ? '#4ade80' : live.backendStatus === 'connecting' ? '#fbbf24' : '#64748b' }}>
+          <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ background: isLive ? '#4ade80' : live.backendStatus === 'connecting' ? '#fbbf24' : '#475569' }}/>
+          {isLive ? 'BACKEND: ONLINE' : live.backendStatus === 'connecting' ? 'CONNECTING...' : 'SIMULATION MODE'}
+        </span>
+      </div>
+      <TopBar metrics={metrics} tier={tier} paused={sim.paused} onToggle={sim.toggle} onReset={sim.reset} onTierChange={setTier} time={time}/>
 
       <div className="flex flex-1 overflow-hidden relative">
         {/* Left panel */}
