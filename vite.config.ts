@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import path from 'path'
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
-import { REGION_CATALOG } from './src/lib/region-catalog'
+import { REGIONS } from './src/lib/simulation'
 import {
   buildWaterSignal,
   normalizeOpenMeteoWaterMetrics,
@@ -48,7 +48,7 @@ function providerProxyPlugin(env: Record<string, string | undefined>) {
   const wattTimePassword = env.WATTTIME_PASSWORD
   const aqueductArtifacts = loadAqueductArtifacts(process.cwd())
   const aqueductByRegion = new Map(aqueductArtifacts.regions.map((region) => [region.regionId, region]))
-  const regionsById = new Map(REGION_CATALOG.map((region) => [region.id, region]))
+  const regionsById = new Map(REGIONS.map((region) => [region.id, region]))
   let wattTimeToken: string | null = null
   let wattTimeTokenExpiresAt = 0
 
@@ -94,7 +94,7 @@ function providerProxyPlugin(env: Record<string, string | undefined>) {
   function selectRegions(requestUrl: URL) {
     const regionIds = requestUrl.searchParams.get('regionIds')
     if (!regionIds) {
-      return REGION_CATALOG
+      return REGIONS
     }
 
     return regionIds
@@ -336,9 +336,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
   return {
-    // Vercel serves this app from the domain root, so production assets must
-    // resolve from `/` rather than a relative filesystem-style base.
-    base: '/',
+    base: './',
     plugins: [react(), providerProxyPlugin(env)],
     resolve: { alias: { '@': path.resolve(__dirname, 'src') } },
     server: { port: 5173 },
