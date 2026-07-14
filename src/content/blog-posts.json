@@ -1,5 +1,54 @@
 [
   {
+    "id": "how-halogrid-turns-carbon-slack-into-routing-headroom",
+    "slug": "how-halogrid-turns-carbon-slack-into-routing-headroom",
+    "title": "How HaloGrid Turns Carbon Slack Into Routing Headroom",
+    "excerpt": "A production note on using spare carbon capacity as a control signal before the grid tightens.",
+    "status": "published",
+    "publishedAt": "2026-07-14T04:57:56.631Z",
+    "updatedAt": "2026-07-14T04:57:56.631Z",
+    "route": "/blog/how-halogrid-turns-carbon-slack-into-routing-headroom",
+    "tags": [
+      "CO2 Router",
+      "carbon-aware routing",
+      "operations",
+      "sustainability"
+    ],
+    "cta": {
+      "label": "See the control plane",
+      "href": "/"
+    },
+    "sections": [
+      {
+        "heading": "Why slack matters",
+        "body": "Carbon slack is the window that lets operators move before pressure becomes a cost problem. HaloGrid watches that window directly so routing decisions stay early, explainable, and tied to the actual execution signal."
+      },
+      {
+        "heading": "How the router uses it",
+        "body": "The control plane compares current intensity, regional drift, and decision age. When the available headroom narrows, it moves work toward cleaner paths while keeping the decision trace intact."
+      },
+      {
+        "heading": "Why that compounds",
+        "body": "Using slack as an operating signal turns routing into a repeatable control loop instead of a one-off response. The published story stays grounded because it reuses the same production media and the same decision framing as the live surface."
+      }
+    ],
+    "mediaTheme": "carbon-surge",
+    "media": [
+      {
+        "id": "hero",
+        "filePath": "public/blog-media/co2-router-carbon-surge-hero.svg",
+        "publicUrl": "/blog-media/co2-router-carbon-surge-hero.svg",
+        "alt": "HaloGrid CO2 Router hero image with concentric routing rings and carbon signal lines."
+      },
+      {
+        "id": "thumb",
+        "filePath": "public/blog-media/co2-router-carbon-surge-thumb.svg",
+        "publicUrl": "/blog-media/co2-router-carbon-surge-thumb.svg",
+        "alt": "Compact HaloGrid carbon routing diagram."
+      }
+    ]
+  },
+  {
     "id": "co2-router-carbon-forecast-drift-routing",
     "slug": "co2-router-carbon-forecast-drift-routing",
     "title": "How HaloGrid Turns Carbon Forecast Drift Into Routing Discipline",
