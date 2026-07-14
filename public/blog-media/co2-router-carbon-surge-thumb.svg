@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bgThumb" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(600 570) rotate(90) scale(580 580)">
+      <stop stop-color="#0F172A"/>
+      <stop offset="1" stop-color="#050B16"/>
+    </radialGradient>
+    <linearGradient id="lineThumb" x1="184" y1="775" x2="1016" y2="402" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#38BDF8"/>
+      <stop offset="0.5" stop-color="#2DD4BF"/>
+      <stop offset="1" stop-color="#A3E635"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="1200" rx="64" fill="url(#bgThumb)"/>
+  <circle cx="600" cy="600" r="292" stroke="rgba(56,189,248,0.22)" stroke-width="3"/>
+  <circle cx="600" cy="600" r="202" stroke="rgba(45,212,191,0.44)" stroke-width="3"/>
+  <circle cx="600" cy="600" r="112" stroke="rgba(163,230,53,0.58)" stroke-width="3"/>
+  <circle cx="600" cy="600" r="24" fill="#38BDF8"/>
+  <path d="M220 760C346 710 432 660 548 622C682 579 780 493 936 438" stroke="url(#lineThumb)" stroke-width="8" stroke-linecap="round"/>
+  <path d="M262 360C394 404 492 429 606 435C728 440 828 487 930 540" stroke="rgba(56,189,248,0.42)" stroke-width="4" stroke-linecap="round" stroke-dasharray="18 18"/>
+  <g fill="#E2E8F0">
+    <circle cx="220" cy="760" r="10"/>
+    <circle cx="548" cy="622" r="10"/>
+    <circle cx="936" cy="438" r="10"/>
+    <circle cx="262" cy="360" r="10"/>
+    <circle cx="606" cy="435" r="10"/>
+    <circle cx="930" cy="540" r="10"/>
+  </g>
+  <text x="96" y="944" font-family="Inter, Arial, sans-serif" font-size="42" font-weight="700" fill="#E2E8F0">CO2 ROUTER</text>
+  <text x="96" y="990" font-family="Inter, Arial, sans-serif" font-size="24" fill="#94A3B8">Carbon-aware routing in production</text>
+</svg>

@@ -1,0 +1,100 @@
+[
+  {
+    "id": "co2-router-carbon-forecast-drift-routing",
+    "slug": "co2-router-carbon-forecast-drift-routing",
+    "title": "How HaloGrid Turns Carbon Forecast Drift Into Routing Discipline",
+    "excerpt": "A production note on using forecast variance to make CO2 Router decisions earlier, cleaner, and easier to audit.",
+    "status": "published",
+    "publishedAt": "2026-07-14T04:51:54.133Z",
+    "updatedAt": "2026-07-14T04:51:54.133Z",
+    "route": "/blog/co2-router-carbon-forecast-drift-routing",
+    "tags": [
+      "CO2 Router",
+      "forecast drift",
+      "carbon-aware routing",
+      "operations"
+    ],
+    "cta": {
+      "label": "See the control plane",
+      "href": "/"
+    },
+    "sections": [
+      {
+        "heading": "Why forecast drift matters",
+        "body": "Carbon data moves quickly, and static assumptions fail early. CO2 Router watches the spread between forecast and realized intensity so HaloGrid can move before a clean route turns into a noisy one."
+      },
+      {
+        "heading": "How the router reacts",
+        "body": "The control plane weighs confidence, regional pressure, and decision age together. When drift expands, it shifts traffic toward lower-impact regions while keeping the routing decision explainable and reversible."
+      },
+      {
+        "heading": "Why that creates leverage",
+        "body": "Better timing reduces waste, preserves uptime, and gives operators a tighter control loop. The same media set used on the production surface keeps the published story tied to real routing behavior instead of generic sustainability language."
+      }
+    ],
+    "mediaTheme": "carbon-surge",
+    "media": [
+      {
+        "id": "hero",
+        "filePath": "public/blog-media/co2-router-carbon-surge-hero.svg",
+        "publicUrl": "/blog-media/co2-router-carbon-surge-hero.svg",
+        "alt": "HaloGrid CO2 Router hero image with concentric routing rings and carbon signal lines."
+      },
+      {
+        "id": "thumb",
+        "filePath": "public/blog-media/co2-router-carbon-surge-thumb.svg",
+        "publicUrl": "/blog-media/co2-router-carbon-surge-thumb.svg",
+        "alt": "Compact HaloGrid carbon routing diagram."
+      }
+    ]
+  },
+  {
+    "id": "co2-router-carbon-surge-routing",
+    "slug": "co2-router-carbon-surge-routing",
+    "title": "How HaloGrid Routes Around Carbon Surges",
+    "excerpt": "A production note on how CO2 Router shifts load before the grid turns expensive.",
+    "status": "published",
+    "publishedAt": "2026-06-10T18:34:40.333Z",
+    "updatedAt": "2026-06-10T18:34:40.333Z",
+    "route": "/blog/co2-router-carbon-surge-routing",
+    "tags": [
+      "CO2 Router",
+      "carbon-aware routing",
+      "operations",
+      "sustainability"
+    ],
+    "cta": {
+      "label": "See the control plane",
+      "href": "/"
+    },
+    "sections": [
+      {
+        "heading": "Why carbon spikes matter",
+        "body": "HaloGrid prioritizes lower-carbon regions before peak intensity becomes a cost problem. The router watches carbon, load, and service pressure together, so decisions move early instead of reacting after emissions are already locked in."
+      },
+      {
+        "heading": "How the router responds",
+        "body": "The control plane compares regional drift, confidence, and decision age. When the spread widens, it redirects work toward cleaner routes while preserving uptime and auditability across the stream."
+      },
+      {
+        "heading": "What this means in production",
+        "body": "The result is a measurable reduction in waste without giving up control. The same operational graph used for live routing also powers the published story, so the marketing surface stays grounded in actual system behavior."
+      }
+    ],
+    "mediaTheme": "carbon-surge",
+    "media": [
+      {
+        "id": "hero",
+        "filePath": "public/blog-media/co2-router-carbon-surge-hero.svg",
+        "publicUrl": "/blog-media/co2-router-carbon-surge-hero.svg",
+        "alt": "HaloGrid CO2 Router hero image with concentric routing rings and carbon signal lines."
+      },
+      {
+        "id": "thumb",
+        "filePath": "public/blog-media/co2-router-carbon-surge-thumb.svg",
+        "publicUrl": "/blog-media/co2-router-carbon-surge-thumb.svg",
+        "alt": "Compact HaloGrid carbon routing diagram."
+      }
+    ]
+  }
+]

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="147" y1="102" x2="1427" y2="836" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#050B16"/>
+      <stop offset="1" stop-color="#0A1A2D"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(800 452) rotate(90) scale(394 603)">
+      <stop stop-color="#38BDF8" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#38BDF8" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="route" x1="388" y1="590" x2="1235" y2="319" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#38BDF8"/>
+      <stop offset="0.5" stop-color="#2DD4BF"/>
+      <stop offset="1" stop-color="#A3E635"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="138" y1="148" x2="1466" y2="770" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F172A" stop-opacity="0.7"/>
+      <stop offset="1" stop-color="#0B1220" stop-opacity="0.2"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect x="72" y="72" width="1456" height="756" rx="40" fill="url(#panel)" stroke="rgba(56,189,248,0.18)"/>
+  <rect x="72" y="72" width="1456" height="756" rx="40" fill="url(#glow)"/>
+  <g opacity="0.14" stroke="#7DD3FC" stroke-width="1">
+    <path d="M112 186H1488"/>
+    <path d="M112 300H1488"/>
+    <path d="M112 414H1488"/>
+    <path d="M112 528H1488"/>
+    <path d="M112 642H1488"/>
+    <path d="M236 124V776"/>
+    <path d="M420 124V776"/>
+    <path d="M604 124V776"/>
+    <path d="M788 124V776"/>
+    <path d="M972 124V776"/>
+    <path d="M1156 124V776"/>
+    <path d="M1340 124V776"/>
+  </g>
+  <circle cx="800" cy="450" r="220" stroke="rgba(56,189,248,0.25)" stroke-width="2"/>
+  <circle cx="800" cy="450" r="150" stroke="rgba(45,212,191,0.45)" stroke-width="2"/>
+  <circle cx="800" cy="450" r="82" stroke="rgba(163,230,53,0.6)" stroke-width="2"/>
+  <circle cx="800" cy="450" r="20" fill="#38BDF8"/>
+  <path d="M454 578C561 537 641 492 734 468C845 438 924 369 1048 320C1124 290 1186 276 1263 262" stroke="url(#route)" stroke-width="5" stroke-linecap="round"/>
+  <path d="M476 338C596 379 674 398 792 402C908 406 1008 451 1110 505C1184 544 1252 560 1328 570" stroke="rgba(56,189,248,0.45)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="12 14"/>
+  <g fill="#E2E8F0">
+    <circle cx="454" cy="578" r="8"/>
+    <circle cx="734" cy="468" r="8"/>
+    <circle cx="1048" cy="320" r="8"/>
+    <circle cx="1263" cy="262" r="8"/>
+    <circle cx="476" cy="338" r="8"/>
+    <circle cx="792" cy="402" r="8"/>
+    <circle cx="1110" cy="505" r="8"/>
+    <circle cx="1328" cy="570" r="8"/>
+  </g>
+  <g opacity="0.9" font-family="Inter, Arial, sans-serif" fill="#E2E8F0">
+    <text x="132" y="160" font-size="22" letter-spacing="4">HALOGRID BLOG</text>
+    <text x="132" y="196" font-size="52" font-weight="700">How HaloGrid Routes Around Carbon Surges</text>
+    <text x="132" y="242" font-size="22" fill="#94A3B8">CO2 Router control plane notes from the live production surface.</text>
+  </g>
+</svg>
