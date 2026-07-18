@@ -1,5 +1,54 @@
 [
   {
+    "id": "co2-router-carbon-baseline-routing",
+    "slug": "co2-router-carbon-baseline-routing",
+    "title": "How HaloGrid Uses Carbon Baselines to Protect Routing Margin",
+    "excerpt": "A production note on keeping CO2 Router decisions ahead of regional drift by measuring the baseline first.",
+    "status": "published",
+    "publishedAt": "2026-07-18T17:49:01.193Z",
+    "updatedAt": "2026-07-18T17:49:01.193Z",
+    "route": "/blog/co2-router-carbon-baseline-routing",
+    "tags": [
+      "CO2 Router",
+      "carbon-aware routing",
+      "operations",
+      "sustainability"
+    ],
+    "cta": {
+      "label": "See the control plane",
+      "href": "/"
+    },
+    "sections": [
+      {
+        "heading": "Why baselines matter",
+        "body": "Routing margin disappears quickly when operators compare only the current number. HaloGrid keeps a baseline for the region so the router can spot pressure early instead of reacting after the window has already closed."
+      },
+      {
+        "heading": "How the router uses it",
+        "body": "The control plane compares the live intensity signal against the baseline, then factors in confidence and decision age. That keeps routing changes disciplined, explainable, and tied to the actual operating window."
+      },
+      {
+        "heading": "Why this compounds",
+        "body": "A stable baseline turns carbon-aware routing into a repeatable control loop. The same CO2 Router media set keeps the post anchored to the production surface instead of generic sustainability language."
+      }
+    ],
+    "mediaTheme": "carbon-surge",
+    "media": [
+      {
+        "id": "hero",
+        "filePath": "public/blog-media/co2-router-carbon-surge-hero.svg",
+        "publicUrl": "/blog-media/co2-router-carbon-surge-hero.svg",
+        "alt": "HaloGrid CO2 Router hero image with concentric routing rings and carbon signal lines."
+      },
+      {
+        "id": "thumb",
+        "filePath": "public/blog-media/co2-router-carbon-surge-thumb.svg",
+        "publicUrl": "/blog-media/co2-router-carbon-surge-thumb.svg",
+        "alt": "Compact HaloGrid carbon routing diagram."
+      }
+    ]
+  },
+  {
     "id": "how-halogrid-turns-carbon-slack-into-routing-headroom",
     "slug": "how-halogrid-turns-carbon-slack-into-routing-headroom",
     "title": "How HaloGrid Turns Carbon Slack Into Routing Headroom",
