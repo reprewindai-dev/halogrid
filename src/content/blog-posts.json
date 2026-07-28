@@ -1,5 +1,54 @@
 [
   {
+    "id": "co2-router-carbon-budget-guardrails",
+    "slug": "co2-router-carbon-budget-guardrails",
+    "title": "How HaloGrid Turns Carbon Budgets Into Routing Guardrails",
+    "excerpt": "A production note on using explicit carbon budgets to keep CO2 Router decisions efficient, auditable, and commercially accountable.",
+    "status": "published",
+    "publishedAt": "2026-07-28T00:44:52.707Z",
+    "updatedAt": "2026-07-28T00:44:52.707Z",
+    "route": "/blog/co2-router-carbon-budget-guardrails",
+    "tags": [
+      "CO2 Router",
+      "carbon budgets",
+      "carbon-aware routing",
+      "FinOps"
+    ],
+    "cta": {
+      "label": "See the control plane",
+      "href": "/"
+    },
+    "sections": [
+      {
+        "heading": "Why carbon budgets need enforcement",
+        "body": "A carbon target has little operational value when it lives outside the routing loop. HaloGrid translates the allowed carbon envelope into a live guardrail, giving operators a measurable boundary before regional intensity creates cost or compliance exposure."
+      },
+      {
+        "heading": "How CO2 Router applies the guardrail",
+        "body": "The control plane evaluates regional intensity, workload pressure, confidence, and decision age against the remaining budget. When a route would consume margin too quickly, CO2 Router redirects eligible work toward a cleaner region while preserving the decision trace."
+      },
+      {
+        "heading": "How this improves commercial control",
+        "body": "Budget-aware routing connects sustainability policy to accountable infrastructure execution. Teams gain a repeatable control loop, an audit-ready record, and a clearer way to protect operating margin without weakening service reliability."
+      }
+    ],
+    "mediaTheme": "carbon-surge",
+    "media": [
+      {
+        "id": "hero",
+        "filePath": "public/blog-media/co2-router-carbon-surge-hero.svg",
+        "publicUrl": "/blog-media/co2-router-carbon-surge-hero.svg",
+        "alt": "HaloGrid CO2 Router hero image with concentric routing rings and carbon signal lines."
+      },
+      {
+        "id": "thumb",
+        "filePath": "public/blog-media/co2-router-carbon-surge-thumb.svg",
+        "publicUrl": "/blog-media/co2-router-carbon-surge-thumb.svg",
+        "alt": "Compact HaloGrid carbon routing diagram."
+      }
+    ]
+  },
+  {
     "id": "co2-router-carbon-baseline-routing",
     "slug": "co2-router-carbon-baseline-routing",
     "title": "How HaloGrid Uses Carbon Baselines to Protect Routing Margin",
