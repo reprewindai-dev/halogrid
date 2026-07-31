@@ -1,5 +1,54 @@
 [
   {
+    "id": "co2-router-carbon-confidence-routing",
+    "slug": "co2-router-carbon-confidence-routing",
+    "title": "How HaloGrid Uses Signal Confidence to Control Carbon Routing",
+    "excerpt": "A production note on preventing noisy carbon data from triggering expensive or unstable routing decisions.",
+    "status": "published",
+    "publishedAt": "2026-07-31T00:45:20.837Z",
+    "updatedAt": "2026-07-31T00:45:20.837Z",
+    "route": "/blog/co2-router-carbon-confidence-routing",
+    "tags": [
+      "CO2 Router",
+      "signal confidence",
+      "carbon-aware routing",
+      "operations"
+    ],
+    "cta": {
+      "label": "See the control plane",
+      "href": "/"
+    },
+    "sections": [
+      {
+        "heading": "Why confidence belongs in the routing loop",
+        "body": "Carbon intensity alone is not enough to justify moving production workloads. HaloGrid evaluates the confidence and freshness of each signal so CO2 Router can distinguish a durable operating change from short-lived measurement noise."
+      },
+      {
+        "heading": "How CO2 Router limits unstable decisions",
+        "body": "The control plane combines signal confidence with regional spread, workload pressure, and decision age. Low-confidence changes stay inside guardrails, while strong evidence can authorize a cleaner route with a complete record of the inputs and policy that produced it."
+      },
+      {
+        "heading": "How confidence protects commercial performance",
+        "body": "Confidence-aware routing reduces unnecessary workload movement, protects reliability, and keeps carbon optimization tied to measurable operating value. Teams gain an auditable decision path without paying the cost of reacting to every fluctuation."
+      }
+    ],
+    "mediaTheme": "carbon-surge",
+    "media": [
+      {
+        "id": "hero",
+        "filePath": "public/blog-media/co2-router-carbon-surge-hero.svg",
+        "publicUrl": "/blog-media/co2-router-carbon-surge-hero.svg",
+        "alt": "HaloGrid CO2 Router hero image with concentric routing rings and carbon signal lines."
+      },
+      {
+        "id": "thumb",
+        "filePath": "public/blog-media/co2-router-carbon-surge-thumb.svg",
+        "publicUrl": "/blog-media/co2-router-carbon-surge-thumb.svg",
+        "alt": "Compact HaloGrid carbon routing diagram."
+      }
+    ]
+  },
+  {
     "id": "co2-router-carbon-budget-guardrails",
     "slug": "co2-router-carbon-budget-guardrails",
     "title": "How HaloGrid Turns Carbon Budgets Into Routing Guardrails",
