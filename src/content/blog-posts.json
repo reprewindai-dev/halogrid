@@ -1,5 +1,54 @@
 [
   {
+    "id": "co2-router-carbon-surge-routing",
+    "slug": "co2-router-carbon-surge-routing",
+    "title": "How HaloGrid Routes Around Carbon Surges",
+    "excerpt": "A production note on how CO2 Router shifts load before the grid turns expensive.",
+    "status": "published",
+    "publishedAt": "2026-08-03T00:46:32.976Z",
+    "updatedAt": "2026-08-03T00:46:32.976Z",
+    "route": "/blog/co2-router-carbon-surge-routing",
+    "tags": [
+      "CO2 Router",
+      "carbon-aware routing",
+      "operations",
+      "sustainability"
+    ],
+    "cta": {
+      "label": "See the control plane",
+      "href": "/"
+    },
+    "sections": [
+      {
+        "heading": "Why carbon spikes matter",
+        "body": "HaloGrid prioritizes lower-carbon regions before peak intensity becomes a cost problem. The router watches carbon, load, and service pressure together, so decisions move early instead of reacting after emissions are already locked in."
+      },
+      {
+        "heading": "How the router responds",
+        "body": "The control plane compares regional drift, confidence, and decision age. When the spread widens, it redirects work toward cleaner routes while preserving uptime and auditability across the stream."
+      },
+      {
+        "heading": "What this means in production",
+        "body": "The result is a measurable reduction in waste without giving up control. The same operational graph used for live routing also powers the published story, so the marketing surface stays grounded in actual system behavior."
+      }
+    ],
+    "mediaTheme": "carbon-surge",
+    "media": [
+      {
+        "id": "hero",
+        "filePath": "public/blog-media/co2-router-carbon-surge-hero.svg",
+        "publicUrl": "/blog-media/co2-router-carbon-surge-hero.svg",
+        "alt": "HaloGrid CO2 Router hero image with concentric routing rings and carbon signal lines."
+      },
+      {
+        "id": "thumb",
+        "filePath": "public/blog-media/co2-router-carbon-surge-thumb.svg",
+        "publicUrl": "/blog-media/co2-router-carbon-surge-thumb.svg",
+        "alt": "Compact HaloGrid carbon routing diagram."
+      }
+    ]
+  },
+  {
     "id": "co2-router-carbon-routing-slas",
     "slug": "co2-router-carbon-routing-slas",
     "title": "How HaloGrid Makes Carbon Routing SLAs Enforceable",
@@ -30,55 +79,6 @@
       {
         "heading": "How enforceable SLAs create commercial leverage",
         "body": "Auditable routing commitments give platform teams a defensible way to package lower-carbon infrastructure as a premium service. Operators can prove performance, protect margin with explicit guardrails, and give customers a measurable upgrade path instead of a vague sustainability claim."
-      }
-    ],
-    "mediaTheme": "carbon-surge",
-    "media": [
-      {
-        "id": "hero",
-        "filePath": "public/blog-media/co2-router-carbon-surge-hero.svg",
-        "publicUrl": "/blog-media/co2-router-carbon-surge-hero.svg",
-        "alt": "HaloGrid CO2 Router hero image with concentric routing rings and carbon signal lines."
-      },
-      {
-        "id": "thumb",
-        "filePath": "public/blog-media/co2-router-carbon-surge-thumb.svg",
-        "publicUrl": "/blog-media/co2-router-carbon-surge-thumb.svg",
-        "alt": "Compact HaloGrid carbon routing diagram."
-      }
-    ]
-  },
-  {
-    "id": "co2-router-carbon-surge-routing",
-    "slug": "co2-router-carbon-surge-routing",
-    "title": "How HaloGrid Routes Around Carbon Surges",
-    "excerpt": "A production note on how CO2 Router shifts load before the grid turns expensive.",
-    "status": "published",
-    "publishedAt": "2026-07-31T00:45:49.3219611Z",
-    "updatedAt": "2026-07-31T00:45:49.3219611Z",
-    "route": "/blog/co2-router-carbon-surge-routing",
-    "tags": [
-      "CO2 Router",
-      "carbon-aware routing",
-      "operations",
-      "sustainability"
-    ],
-    "cta": {
-      "label": "See the control plane",
-      "href": "/"
-    },
-    "sections": [
-      {
-        "heading": "Why carbon spikes matter",
-        "body": "HaloGrid prioritizes lower-carbon regions before peak intensity becomes a cost problem. The router watches carbon, load, and service pressure together, so decisions move early instead of reacting after emissions are already locked in."
-      },
-      {
-        "heading": "How the router responds",
-        "body": "The control plane compares regional drift, confidence, and decision age. When the spread widens, it redirects work toward cleaner routes while preserving uptime and auditability across the stream."
-      },
-      {
-        "heading": "What this means in production",
-        "body": "The result is a measurable reduction in waste without giving up control. The same operational graph used for live routing also powers the published story, so the marketing surface stays grounded in actual system behavior."
       }
     ],
     "mediaTheme": "carbon-surge",
