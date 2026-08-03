@@ -1,16 +1,16 @@
 [
   {
-    "id": "co2-router-carbon-confidence-routing",
-    "slug": "co2-router-carbon-confidence-routing",
-    "title": "How HaloGrid Uses Signal Confidence to Control Carbon Routing",
-    "excerpt": "A production note on preventing noisy carbon data from triggering expensive or unstable routing decisions.",
+    "id": "co2-router-carbon-routing-slas",
+    "slug": "co2-router-carbon-routing-slas",
+    "title": "How HaloGrid Makes Carbon Routing SLAs Enforceable",
+    "excerpt": "A production note on turning carbon targets into measurable routing commitments without sacrificing reliability or margin.",
     "status": "published",
-    "publishedAt": "2026-07-31T00:45:20.837Z",
-    "updatedAt": "2026-07-31T00:45:20.837Z",
-    "route": "/blog/co2-router-carbon-confidence-routing",
+    "publishedAt": "2026-08-03T00:46:04.097Z",
+    "updatedAt": "2026-08-03T00:46:04.097Z",
+    "route": "/blog/co2-router-carbon-routing-slas",
     "tags": [
       "CO2 Router",
-      "signal confidence",
+      "carbon routing SLAs",
       "carbon-aware routing",
       "operations"
     ],
@@ -20,16 +20,16 @@
     },
     "sections": [
       {
-        "heading": "Why confidence belongs in the routing loop",
-        "body": "Carbon intensity alone is not enough to justify moving production workloads. HaloGrid evaluates the confidence and freshness of each signal so CO2 Router can distinguish a durable operating change from short-lived measurement noise."
+        "heading": "Why carbon commitments need an operating contract",
+        "body": "A carbon target becomes commercially useful only when teams can measure whether production routing honored it. HaloGrid defines the allowable intensity, decision window, and reliability floor together so CO2 Router can enforce the commitment as an operating contract."
       },
       {
-        "heading": "How CO2 Router limits unstable decisions",
-        "body": "The control plane combines signal confidence with regional spread, workload pressure, and decision age. Low-confidence changes stay inside guardrails, while strong evidence can authorize a cleaner route with a complete record of the inputs and policy that produced it."
+        "heading": "How CO2 Router enforces the SLA",
+        "body": "The control plane evaluates regional intensity, signal confidence, workload pressure, and route health before each eligible move. Every decision records the policy inputs and outcome, making carbon performance traceable without weakening service availability."
       },
       {
-        "heading": "How confidence protects commercial performance",
-        "body": "Confidence-aware routing reduces unnecessary workload movement, protects reliability, and keeps carbon optimization tied to measurable operating value. Teams gain an auditable decision path without paying the cost of reacting to every fluctuation."
+        "heading": "How enforceable SLAs create commercial leverage",
+        "body": "Auditable routing commitments give platform teams a defensible way to package lower-carbon infrastructure as a premium service. Operators can prove performance, protect margin with explicit guardrails, and give customers a measurable upgrade path instead of a vague sustainability claim."
       }
     ],
     "mediaTheme": "carbon-surge",
@@ -79,6 +79,55 @@
       {
         "heading": "What this means in production",
         "body": "The result is a measurable reduction in waste without giving up control. The same operational graph used for live routing also powers the published story, so the marketing surface stays grounded in actual system behavior."
+      }
+    ],
+    "mediaTheme": "carbon-surge",
+    "media": [
+      {
+        "id": "hero",
+        "filePath": "public/blog-media/co2-router-carbon-surge-hero.svg",
+        "publicUrl": "/blog-media/co2-router-carbon-surge-hero.svg",
+        "alt": "HaloGrid CO2 Router hero image with concentric routing rings and carbon signal lines."
+      },
+      {
+        "id": "thumb",
+        "filePath": "public/blog-media/co2-router-carbon-surge-thumb.svg",
+        "publicUrl": "/blog-media/co2-router-carbon-surge-thumb.svg",
+        "alt": "Compact HaloGrid carbon routing diagram."
+      }
+    ]
+  },
+  {
+    "id": "co2-router-carbon-confidence-routing",
+    "slug": "co2-router-carbon-confidence-routing",
+    "title": "How HaloGrid Uses Signal Confidence to Control Carbon Routing",
+    "excerpt": "A production note on preventing noisy carbon data from triggering expensive or unstable routing decisions.",
+    "status": "published",
+    "publishedAt": "2026-07-31T00:45:20.837Z",
+    "updatedAt": "2026-07-31T00:45:20.837Z",
+    "route": "/blog/co2-router-carbon-confidence-routing",
+    "tags": [
+      "CO2 Router",
+      "signal confidence",
+      "carbon-aware routing",
+      "operations"
+    ],
+    "cta": {
+      "label": "See the control plane",
+      "href": "/"
+    },
+    "sections": [
+      {
+        "heading": "Why confidence belongs in the routing loop",
+        "body": "Carbon intensity alone is not enough to justify moving production workloads. HaloGrid evaluates the confidence and freshness of each signal so CO2 Router can distinguish a durable operating change from short-lived measurement noise."
+      },
+      {
+        "heading": "How CO2 Router limits unstable decisions",
+        "body": "The control plane combines signal confidence with regional spread, workload pressure, and decision age. Low-confidence changes stay inside guardrails, while strong evidence can authorize a cleaner route with a complete record of the inputs and policy that produced it."
+      },
+      {
+        "heading": "How confidence protects commercial performance",
+        "body": "Confidence-aware routing reduces unnecessary workload movement, protects reliability, and keeps carbon optimization tied to measurable operating value. Teams gain an auditable decision path without paying the cost of reacting to every fluctuation."
       }
     ],
     "mediaTheme": "carbon-surge",
