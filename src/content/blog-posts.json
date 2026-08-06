@@ -1,5 +1,54 @@
 [
   {
+    "id": "co2-router-decision-replay",
+    "slug": "co2-router-decision-replay",
+    "title": "How HaloGrid Makes Every Carbon Routing Decision Replayable",
+    "excerpt": "A production note on using deterministic replay to prove why CO2 Router moved workloads and what commercial guardrails it enforced.",
+    "status": "published",
+    "publishedAt": "2026-08-06T00:44:38.199Z",
+    "updatedAt": "2026-08-06T00:44:38.199Z",
+    "route": "/blog/co2-router-decision-replay",
+    "tags": [
+      "CO2 Router",
+      "decision replay",
+      "carbon-aware routing",
+      "auditability"
+    ],
+    "cta": {
+      "label": "See the control plane",
+      "href": "/"
+    },
+    "sections": [
+      {
+        "heading": "Why routing decisions need replay",
+        "body": "A carbon-aware move only creates business control when operators can reconstruct why it happened. HaloGrid records the signal snapshot, policy version, workload pressure, and reliability constraints behind each CO2 Router decision so the outcome remains explainable after production conditions change."
+      },
+      {
+        "heading": "How CO2 Router preserves determinism",
+        "body": "The control plane evaluates versioned inputs through the same routing rules used in production. Teams can replay an event against its original policy, compare it with current rules, and verify that carbon savings never bypassed availability or margin guardrails."
+      },
+      {
+        "heading": "How replayability creates commercial leverage",
+        "body": "A reproducible decision trail turns lower-carbon routing into evidence customers and auditors can trust. HaloGrid operators can resolve disputes faster, prove premium service commitments, and improve policy without weakening the integrity of historical results."
+      }
+    ],
+    "mediaTheme": "carbon-surge",
+    "media": [
+      {
+        "id": "hero",
+        "filePath": "public/blog-media/co2-router-carbon-surge-hero.svg",
+        "publicUrl": "/blog-media/co2-router-carbon-surge-hero.svg",
+        "alt": "HaloGrid CO2 Router hero image with concentric routing rings and carbon signal lines."
+      },
+      {
+        "id": "thumb",
+        "filePath": "public/blog-media/co2-router-carbon-surge-thumb.svg",
+        "publicUrl": "/blog-media/co2-router-carbon-surge-thumb.svg",
+        "alt": "Compact HaloGrid carbon routing diagram."
+      }
+    ]
+  },
+  {
     "id": "co2-router-carbon-surge-routing",
     "slug": "co2-router-carbon-surge-routing",
     "title": "How HaloGrid Routes Around Carbon Surges",
