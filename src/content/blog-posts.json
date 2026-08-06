@@ -1,5 +1,54 @@
 [
   {
+    "id": "co2-router-route-age-pacing",
+    "slug": "co2-router-route-age-pacing",
+    "title": "How HaloGrid Uses Route Age to Prevent Carbon Thrash",
+    "excerpt": "A production note on keeping CO2 Router from overreacting to short-lived carbon swings.",
+    "status": "published",
+    "publishedAt": "2026-08-06T00:47:45.292Z",
+    "updatedAt": "2026-08-06T00:47:45.292Z",
+    "route": "/blog/co2-router-route-age-pacing",
+    "tags": [
+      "CO2 Router",
+      "route age",
+      "carbon-aware routing",
+      "operations"
+    ],
+    "cta": {
+      "label": "See the control plane",
+      "href": "/"
+    },
+    "sections": [
+      {
+        "heading": "Why route age matters",
+        "body": "Carbon signals can move faster than the workload should. HaloGrid tracks the age of each live route so CO2 Router can separate a real operating change from a brief intensity spike that would otherwise create churn."
+      },
+      {
+        "heading": "How the router uses it",
+        "body": "The control plane weighs route age alongside regional spread, confidence, and service pressure. Fresh routes stay stable unless the evidence is strong enough to justify a move, which keeps the system disciplined under noisy conditions."
+      },
+      {
+        "heading": "Why this creates leverage",
+        "body": "A route-age threshold reduces unnecessary movement, protects uptime, and preserves the margin needed to keep carbon-aware routing commercially useful. The same production media set keeps the post visually tied to the live CO2 Router surface."
+      }
+    ],
+    "mediaTheme": "carbon-surge",
+    "media": [
+      {
+        "id": "hero",
+        "filePath": "public/blog-media/co2-router-carbon-surge-hero.svg",
+        "publicUrl": "/blog-media/co2-router-carbon-surge-hero.svg",
+        "alt": "HaloGrid CO2 Router hero image with concentric routing rings and carbon signal lines."
+      },
+      {
+        "id": "thumb",
+        "filePath": "public/blog-media/co2-router-carbon-surge-thumb.svg",
+        "publicUrl": "/blog-media/co2-router-carbon-surge-thumb.svg",
+        "alt": "Compact HaloGrid carbon routing diagram."
+      }
+    ]
+  },
+  {
     "id": "co2-router-decision-replay",
     "slug": "co2-router-decision-replay",
     "title": "How HaloGrid Makes Every Carbon Routing Decision Replayable",
